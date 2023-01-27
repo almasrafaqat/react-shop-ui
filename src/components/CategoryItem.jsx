@@ -1,16 +1,16 @@
 import styled from "styled-components"
 
+
 const Container = styled.div`
     flex: 1;
-    height: 70vh;
     margin: 3px;
+    height: 70vh;
     position: relative;
 
 `;
-
 const Image = styled.img`
-    height: 100%;
     width: 100%;
+    height: 100%;
     object-fit: cover;
 `;
 
@@ -27,20 +27,18 @@ const Info = styled.div`
 `;
 
 const Title = styled.h1`
-      color:white;
+    color:white;
     margin-bottom: 20px;
 `;
 
 const Button = styled.button`
-    border: none;
-    color : gray;
-    cursor: pointer;
+    border:none;
     padding: 10px;
-    font-weight: 600;
     background-color: white;
+    color:gray;
+    cursor: pointer;
+    font-weight: 600;
 `;
-
-
 
 const CategoryItem = ({ item }) => {
     return (
@@ -48,7 +46,7 @@ const CategoryItem = ({ item }) => {
             <Image src={item.img} />
             <Info>
                 <Title>{item.title}</Title>
-                <Button>SHOP NOW</Button>
+                <Button>Show Now!</Button>
             </Info>
         </Container>
     )
