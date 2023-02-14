@@ -4,12 +4,14 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newletter from "../components/Newletter";
+import { mobile } from "../responsive";
 
 const Container = styled.div``;
 
 const Wrapper = styled.div`
   display: flex;
   padding: 50px;
+  ${mobile({ padding: "10px", flexDirection: "column" })}
 `;
 
 const ImageContainer = styled.div`
@@ -20,6 +22,7 @@ const Image = styled.img`
   width: 100%;
   height: 90vh;
   object-fit: cover;
+  ${mobile({ height: "40vh" })};
 `;
 
 const Title = styled.span`
@@ -39,6 +42,7 @@ const Price = styled.div`
 const InfoContainer = styled.div`
   flex: 1;
   padding: 0px 50px;
+  ${mobile({ padding: "10px" })}
 `;
 
 const FilterContainer = styled.div`
@@ -46,6 +50,7 @@ const FilterContainer = styled.div`
   margin: 30px 0px;
   display: flex;
   justify-content: space-between;
+  ${mobile({ width: "100%" })}
 `;
 
 const Filter = styled.div`
@@ -80,6 +85,7 @@ const AddContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  ${mobile({ width: "100%" })}
 `;
 
 const AmountContainer = styled.div`
