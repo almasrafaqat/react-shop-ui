@@ -1,0 +1,1736 @@
+Video 3:
+git clone 
+install npm
+npm i react-router-dom
+--
+App.js>
+import {BrowserRouter as Router, Routes,Route} from 'react-router-dom';
+<Routes>
+	<Route path="/" element={<Home/>} />
+	<Route path="/about" element={<About/>} />
+	<Route path="/product" element={<Products/>} />
+	<Route path="/contact" element={<Contact/>} />
+	<Route path="/singleproduct/:id" element={<SingleProduct/>} />
+	<Route path="/cart" element={<Cart/>} />
+	<Route path="*" element={<Error/>} />
+  </Routes>
+
+  ================
+  Video# 4
+
+import {
+
+GlobalStyle.js
+export const GlobalStyle = createGlobalStyle``
+
+App.js
+import GlobalStyle} from /.GlobalStyle
+import <ThemeProvider/> from styled-component;
+
+const App = () => {
+ const theme = {
+    colors: {
+      heading: "rgb(24 24 29)",
+      text: "rgba(29 ,29, 29, .8)",
+      white: "#fff",
+      black: " #212529",
+      helper: "#8490ff",
+
+      bg: "#F6F8FA",
+      footer_bg: "#0a1435",
+      btn: "rgb(98 84 243)",
+      border: "rgba(98, 84, 243, 0.5)",
+      hr: "#ffffff",
+      gradient:
+        "linear-gradient(0deg, rgb(132 144 255) 0%, rgb(98 189 252) 100%)",
+      shadow:
+        "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;",
+      shadowSupport: " rgba(0, 0, 0, 0.16) 0px 1px 4px",
+    },
+    media: {
+      mobile: "768px",
+      tab: "998px",
+    },
+  };
+
+<ThemeProvider theme={theme}>
+<Router>
+<GlobalStyle />
+<ThemeProvider/>
+===============
+Video# 5
+
+src__components_Header.js and Nav.js
+
+Header.js
+const Header () => {
+return (<MainHeader>
+	<NavLink to =>
+		<img src="./images/logo.png" alt"my logo img" />
+	</NavLink>
+<Nav/>
+<MainHeader/>)
+	
+}
+
+App.js
+<GlobalStyle/>
+<Header />
+
+Nav.js
+<Nav>
+	div class="navbar"
+
+
+--
+npm react-icons
+==============
+Video : #6
+Responsive Navbar Completed Media Query
+
+============
+Video : #7
+
+__src__components_HeroSection.js
+
+called in Home.js and About.js with props
+
+=============
+
+ Video #8: 
+ Complete Services & Trusted Section
+
+=============
+Video 9 Source Code - Contact Page with Email
+=============
+Video 10 Source Code - Footer Component
+=============
+ ============
+ #11: Complete 404 Error Page
+ =============
+ #12:
+
+ __src__context__productcontext.js
+
+const AppContext = createContext();
+
+
+const AppProvider = ({children)} => {
+
+return AppContext.provider value{{MyName: "Almas Rafaqat" }}>{children{</
+export {AppProvider, AppContext, useProductContext}
+
+
+const useProductContext = () => {
+return useContext(AppContext);
+
+-------------------------
+for usage
+
+ const { MyName } = useProductContext();
+
+ ================================
+
+#13: Fetch API data using Axios
+
+const API = "https://api.pujakaitem.com/api/products";
+
+//const AppProvider = ({ children }) => {
+  const getProducts = async (url) => {
+    const res = await axios.get(url);
+    const products = await res.data;
+    console.log(products);
+  };
+
+  useEffect(() => {
+    getProducts(API);
+  }, []);
+
+
+=====================================
+
+#14: State Management using useReducer Hook 
+
+productcontext.js
+ const [state, dispatch] = useReducer(reducer, initialState);
+  const getProducts = async (url) => {
+    dispatch({ type: "API_LOADING" });
+    try {
+      const res = await axios.get(url);
+      const products = await res.data;
+      dispatch({ type: "SET_API_DATA", payload: products });
+    } catch (error) {
+      dispatch({ type: "API_ERROR" });
+    }
+  };
+
+
+__src__reducer_productReducer.js
+const ProductReducer = (state, action) => {
+  switch (action.type) {
+    case "API_LOADING":
+      return { ...state, isLoading: true };
+    case "SET_API_DATA":
+      const featureData = action.payload.filter((curElem) => {
+        return curElem.featured === true;
+      });
+
+      return {
+        ...state,
+        isLoading: false,
+        products: action.payload,
+        featuredProducts: featureData,
+      };
+
+    case "API_ERROR":
+      return { ...state, isError: true, isLoading: false };
+    default:
+      return state;
+  }
+};
+
+export default ProductReducer;
+
+=================
+#15: Complete Feature Section of Home Page
+
+__src__component_FeatureProduct.js
+
+const FeatureProduct = () => {
+    const {isLoading, featuredProducts} = useProductContext();
+
+    
+  if (isLoading) {
+    return <div> ......Loading </div>;
+  }
+
+  return (
+    <Wrapper className="section">
+      <div className="container">
+        <div className="intro-data">Check Now!</div>
+        <div className="common-heading">Our Feature Services</div>
+        <div className="grid grid-three-column">
+          {featuredProducts.map((curElem) => {
+            return <Product key={curElem.id} {...curElem} />;
+          })}
+        </div>
+      </div>
+    </Wrapper>
+  );
+}
+
+
+
+__src__component_Product.js
+
+const Product = (curElem) => {
+  const {id, name, image, price, category} = curElem;
+  return (
+    <NavLink to={`/singleproduct/${id}`}>
+      <div className="card">
+        <figure>
+          <img src={image} alt={name} />
+          <figcaption className="caption">{category}</figcaption>
+        </figure>
+
+        <div className="card-data">
+          <div className="card-data-flex">
+            <h3>{name}</h3>
+            <p className="card-data--price">{price}</p>
+          </div>
+        </div>
+      </div>
+    </NavLink>
+  );
+}
+
+========================
+
+#16: Convert Numbers into Indian Currency with Intl Number Format API
+
+__src__helpers_FormatPrice.js
+
+const FormatPrice = ({price}) => {
+    return Intl.NumberFormat("en-IN", {
+        style:"currency",
+        currency: "INR",
+        maximumFractionDigits: 2,
+    }).format(price / 100);
+}
+
+export default FormatPrice
+--
+__src__component_Product.js
+<p className="card-data--price">{<FormatPrice price={price}/>}</p>
+
+
+====================
+#17: Complete Context API, Axios & useReducer State for Single Product Page
+
+  const initialState = {
+
+    isSingleLoading: false,
+    singleProduct: {},
+  };
+
+    // my 2nd api call for single product
+
+  const getSingleProduct = async (url) => {
+    dispatch({ type: "SET_SINGLE_LOADING" });
+    try {
+      const res = await axios.get(url);
+      const singleProduct = await  res.data;
+      dispatch({ type: "SET_SINGLE_PRODUCT", payload: singleProduct });
+    } catch (error) {
+      dispatch({ type: "SET_SINGLE_ERROR" });
+    }
+  };
+
+  --
+
+  case "SET_SINGLE_LOADING":
+      return { ...state, isSingleLoading: true };
+    case "SET_SINGLE_PRODUCT":
+      return { ...state, singleProduct: action.payload, isSingleLoading: false };
+    case "SET_SINGLE_ERROR":
+      return { ...state, isSingleLoading: false, isError: true };
+
+====================
+
+#18: Get API Data with ID and Destructure in Single Product Page
+
+SingleProduct.js
+const API = "https://api.pujakaitem.com/api/products";
+  const { getSingleProduct, singleProduct } = useProductContext();
+  const { id } = useParams();
+  const {
+    id: alias,
+    name,
+    company,
+    price,
+    description,
+    category,
+    stock,
+    stars,
+    reviews,
+  } = singleProduct;
+
+  useEffect(() => {
+    getSingleProduct(`${API}?id=${id}`);
+  }, []);
+
+  ==================
+
+  #19: Page Navigation & Product Details UI
+  PageNavigation, MyImage,SingleProduct.js
+
+  ==================
+ #20: Dynamic Images Functionality in One Click
+
+MyImage.js
+  ====================
+
+#21: Star Ratings Component & Reviews using React JS 
+
+import styled from "styled-components";
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+import { AiOutlineStar } from "react-icons/ai";
+
+const Star = ({ stars, reviews }) => {
+  const ratingStar = Array.from({ length: 5 }, (curElm, index) => {
+    let number = index + 0.5;
+
+    return (
+      <span key={index}>
+        {stars >= index + 1 ? (
+          <FaStar  className="icon" />
+        ) : stars >= number ? (
+          <FaStarHalfAlt className="icon" />
+        ) : (
+          <AiOutlineStar className="icon" />
+        )}
+      </span>
+    );
+  });
+
+  return (
+    <Wrapper>
+      <div className="icon-style">
+        {ratingStar}
+        <p>({reviews} customer reviews)</p>
+      </div>
+    </Wrapper>
+  );
+};
+const Wrapper = styled.section`
+  .icon-style {
+    display: flex;
+    gap: 0.2rem;
+    align-items: center;
+    justify-content: flex-start;
+    .icon {
+      font-size: 2rem;
+      color: orange;
+    }
+    .empty-icon {
+      font-size: 2.6rem;
+    }
+    p {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+  }
+`;
+export default Star;
+========================
+#22: Colors Picker Selection functionality with React JS
+
+SingleProduct.js
+ {stock > 0 && <AddToCart product={singleProduct} />}
+
+AddToCart.js
+import { useState } from "react";
+import styled from "styled-components";
+import { FaCheck } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+import { Button } from "../styles/Button";
+
+const AddToCart = ({ product }) => {
+
+    const { id, colors, stock } = product;
+    const [color, setColor] = useState(colors[0]);
+
+  return (
+    <Wrapper>
+      <div className="colors">
+        <p>
+          Color:
+          {colors?.map((curColor, index) => {
+            return (
+              <button
+                key={index}
+                style={{ backgroundColor: curColor }}
+                className={color === curColor ? "btnStyle active" : "btnStyle"}
+                onClick={() => setColor(curColor)}>
+                {color === curColor ? <FaCheck className="checkStyle" /> : null}
+              </button>
+            );
+          })}
+        </p>
+      </div>
+
+
+      <NavLink to="/cart">
+        <Button className="btn">Add To Cart</Button>
+      </NavLink>
+    </Wrapper>
+  );
+};
+
+const Wrapper = styled.section`
+  .colors p {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .btnStyle {
+    width: 2rem;
+    height: 2rem;
+    background-color: #000;
+    border-radius: 50%;
+    margin-left: 1rem;
+    border: none;
+    outline: none;
+    opacity: 0.5;
+    cursor: pointer;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .active {
+    opacity: 1;
+  }
+  .checkStyle {
+    font-size: 1rem;
+    color: #fff;
+  }
+  /* we can use it as a global one too  */
+  .amount-toggle {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.4rem;
+    button {
+      border: none;
+      background-color: #fff;
+      cursor: pointer;
+    }
+    .amount-style {
+      font-size: 2.4rem;
+      color: ${({ theme }) => theme.colors.btn};
+    }
+  }
+`;
+export default AddToCart;
+--
+=====================
+
+ #23: Product Quantity Increment & Decrement Button with React JS 
+
+ src\components\AddToCart.js
+ const [amount, setAmount] = useState(1);
+
+  const setIncrease = () => {
+    amount < stock ? setAmount(amount + 1) : setAmount(stock);
+  };
+
+  const setDecrease = () => {
+    amount > 1 ? setAmount(amount - 1) : setAmount(1);
+  };
+
+    {/* add to cart  */}
+      <CartAmountToggle
+        amount={amount}
+        setDecrease={setDecrease}
+        setIncrease={setIncrease}
+      />
+
+----------
+src\components\CartAmountToggle.js
+import React from "react";
+import { Button } from "../styles/Button";
+import { FaMinus, FaPlus } from "react-icons/fa";
+
+const CartAmountToggle = ({ amount, setIncrease, setDecrease }) => {
+  return (
+    <div className="cart-button">
+      <div className="amount-toggle">
+        <button onClick={() => setDecrease()}>
+          <FaMinus />
+        </button>
+        <div className="amount-style">{amount}</div>
+        <button onClick={() => setIncrease()}>
+          <FaPlus />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default CartAmountToggle;
+
+===========================================================
+#24: Let's Code Our Product Page with all Filters & Sorting
+===========================================================
+new components => FilterSection, Sort, ProductList
+  <Wrapper>
+      <div className="container grid grid-filter-column">
+        <div>
+          <FilterSection />
+        </div>
+
+        <section className="product-view--sort">
+          <div className="sort-filter">
+            <Sort />
+          </div>
+          <div className="main-product">
+            <ProductList />
+          </div>
+        </section>
+      </div>
+    </Wrapper>
+
+  ===================================================================
+  #25: Get Data for Products Page using Context API & useReducre Hook
+  ===================================================================
+
+  __src__context_filter_context.js
+  import { createContext, useContext, useReducer, useEffect } from "react";
+
+const FilterContext  = createContext();
+
+
+export const FilterContextProvider = ({children}) => {
+    return <FilterContext.Provider value={...state}>{children}</FilterContext.Provider>
+}
+
+
+export  const useFilterContext = () => {
+    return useContext(FilterContext);
+}
+----
+<FilterContextProvider><App/></<FilterContextProvider>
+
+---
+src\context\filter_context.js
+get product by :
+const { products } = useProductContext();
+make reducer:
+const [state, dispatch] = useReducer(reducer, initialState);
+define initialState:
+
+const initialState = {
+    filter_products : [],
+    all_products: [],
+}
+
+get all products:
+  useEffect(()=>{
+    dispatch({type:"LOAD_FILTER_PRODUCTS", payload: products});
+  },[products])
+
+-----
+make reducer funtion:
+src\reducer\filterReducer.js
+  const filterReducer = (state, action) => {
+  switch (action.type) {
+    case "LOAD_FILTER_PRODUCTS":
+      return {
+        ...state,
+        filter_products: [...action.payload],
+        all_products: [...action.payload],
+      };
+
+    default:
+      return state;
+  }
+};
+
+export default filterReducer;
+
+==============================================
+#26: Dynamic Grid View Layout in Product Page
+============================================== 
+
+src\context\filter_context.js
+initialState=<
+grid_view: true,
+
+const setGridView = () =>{
+    return dispatch({type: "SET_GRIDVIEW"});
+  }
+
+
+
+pass it to ContextPRovider:
+ <FilterContext.Provider value={{ ...state, setGridView }}>
+
+in reducer make case and grid_view : true:
+ case "SET_GRIDVIEW":
+      return { ...state, grid_view: true };
+---
+ProductList.js
+
+if(GridView){
+<GridView products={filter_products}
+}
+---
+src\components\GridView.js
+import Product from './Product'
+const GridView = ({products}) => {
+   
+ 
+    return (
+        <Wrapper className="section">
+          <div className="container grid grid-three-column">
+            {products.map((curElem) => {
+              return <Product key={curElem.id} {...curElem} />;
+            })}
+          </div>
+        </Wrapper>
+      );
+  
+}
+
+
+=============================================
+ #27: Dynamic ListView Layout in Product Page
+ ============================================
+ UI ListView & GridView
+
+
+
+  ==============================================================
+  #28: Clickable Grid & List View Sorting Button in Product Page
+  ===============================================================
+
+  
+src\context\filter_context.js
+
+ const initialState = {
+
+  grid_view: true,
+};
+
+  // to set the grid view
+  const setGridView = () => {
+    return dispatch({ type: "SET_GRID_VIEW" });
+  };
+
+  // to set the list view
+  const setListView = () => {
+    return dispatch({ type: "SET_LIST_VIEW" });
+  };
+
+   <FilterContext.Provider value={{ ...state, setGridView, setListView }}>
+
+   -----
+src\reducer\filterReducer.js
+
+     case "SET_LIST_VIEW":
+      return {
+        ...state,
+        grid_view: false,
+      };
+  ------
+  src\components\ProductList .js
+
+     if (grid_view === true) {
+    return <GridView products={filter_products} />;
+  }
+
+   if (grid_view === false) {
+    return <ListView products={filter_products} />;
+  }
+
+  -----------------
+  src\components\Sort .js
+   const { setListView, setGridView, grid_view, filter_products } =
+    useFilterContext();
+
+      <button
+      className={grid_view ? "active sort-btn" : "sort-btn"}
+      onClick={setGridView}
+    >
+      <BsFillGridFill className="icon" />
+    </button>
+    <button
+      className={!grid_view ? "active sort-btn" : " sort-btn"}
+      onClick={setListView}
+    >
+      <BsList className="icon" />
+    </button>
+
+-----------------
+  code files: src\components\GridView.js, src\components\ListView.js
+
+================================================================
+#29: Amazon Like Sort products from low to high prices in React
+================================================================
+sort.js
+design dropdown and on select call sorting function
+
+filter_context.js
+define sorting function with dispatch and pass in contextprovider
+
+reducer:
+ let userSortValue = document.getElementById("sort");
+let sort_value = userSortValue.options[userSortValue.selectedIndex].value;
+GET_SORTING_VALUE
+ return { ...state, sorting_value: sort_value };
+
+==================================================================
+#30: Amazon Like Sorting Products in React 🔥 P-2
+==================================================================
+src\components\Sort .js
+<select name="sort" id="sort" className="sort-selection--style" onClick={sorting}>
+
+src\context\filter_context.js
+ 
+  const sorting = () => {
+    return dispatch({ type: "GET_SORTING_VALUE" });
+    
+  };
+  useEffect(()=>{
+    dispatch({type: "SORTING_PRODUCTS", payload:products })
+  },[state.sorting_value]);
+
+src\reducer\filterReducer.js
+
+     case "GET_SORTING_VALUE":
+      let userSortValue = document.getElementById("sort");
+      let sort_value = userSortValue.options[userSortValue.selectedIndex].value;
+      return { ...state, sorting_value: sort_value };
+
+      
+    case "SORTING_PRODUCTS":
+      let newSortData;
+      let tempSortProduct = [...action.payload];
+
+      if(state.sorting_value === "lowest"){
+        const LowestProducts = (a,b) =>{
+            return a.price - b.price;
+        }
+        newSortData = tempSortProduct.sort(LowestProducts);
+      }
+      if(state.sorting_value === "highest"){
+        const HighestProduct = (a,b) =>{
+            return b.price - a.price;
+        }
+
+        newSortData = tempSortProduct.sort(HighestProduct);
+      }
+      if (state.sorting_value === "a-z") {
+        newSortData = tempSortProduct.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+      }
+      if (state.sorting_value === "z-a") {
+        newSortData = tempSortProduct.sort((a, b) =>
+          b.name.localeCompare(a.name)
+        );
+      }
+
+      return { ...state, filter_products: newSortData };
+
+
+
+initialState
+sorting_value: "lowest"
+
+--
+==========================================================================
+#32: let's use DRY (Do Not Repeat Yourself) Approach to make Code shorter
+==========================================================================
+src\context\filter_context.js
+
+  const sorting = (event) => {
+    let userValue = event.target.value;
+    return dispatch({ type: "GET_SORTING_VALUE", payload:userValue });
+    
+  };
+
+  useEffect(() => {
+    dispatch({ type: "SORTING_PRODUCTS" });
+  }, [state.sorting_value]);
+
+
+ 
+src\reducer\filterReducer.js
+
+    case "GET_SORTING_VALUE":
+      return { ...state, sorting_value: action.payload };
+
+    case "SORTING_PRODUCTS":
+      let newSortData;
+
+      const { filter_products, sorting_value } = state;
+      let tempSortProduct = [...filter_products];
+
+      const sortingProducts = (a, b) => {
+        if (sorting_value === "lowest") {
+          return a.price - b.price;
+        }
+
+        if (sorting_value === "highest") {
+          return b.price - a.price;
+        }
+
+        if (sorting_value === "a-z") {
+          return a.name.localeCompare(b.name);
+        }
+
+        if (sorting_value === "z-a") {
+          return b.name.localeCompare(a.name);
+        }
+      };
+
+      newSortData = tempSortProduct.sort(sortingProducts);
+
+      return {
+        ...state,
+        filter_products: newSortData,
+      };
+
+==============================================
+#33: Search Filter in React JS in Hindi
+==============================================
+src\context\filter_context.js
+initialState => filters : {text:""}:
+ filters: {
+    text: "",
+  },
+
+
+  define the function for dispatch:
+    // filter the value
+
+  const updateFilterValue = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    return dispatch({ type: "UPDATE_FILTERS_VALUE", payload: { name, value } });
+  };
+
+ useEffect(() => {
+    dispatch({type: "FILTER_PRODUCTS"})
+    dispatch({ type: "SORTING_PRODUCTS" });
+  }, [state.sorting_value, state.filters]);
+
+  define action in reducer:
+
+  src\reducer\filterReducer.js
+      case "UPDATE_FILTERS_VALUE":
+      const { name, value } = action.payload;
+
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          [name]: value, //[name=text]
+        },
+      };
+
+    case "FILTER_PRODUCTS :
+    let {all_products} = state;
+    let tempFilterProduct = [...all_products];
+
+    const text = state.filters;
+
+    if (text) {
+        tempFilterProduct = tempFilterProduct.filter((curElem) => {
+          return curElem.name.toLowerCase().includes(text);
+        });
+      }
+    return {...state, tempFilterProduct}
+
+src\components\FilterSection.js
+
+call the function and initialstate value:
+
+  const {
+    filters: { text },
+    updateFilterValue,
+  } = useFilterContext();
+
+  and declare inside the form:
+
+     <form onSubmit={(e) => e.preventDefault()}>
+          <input
+            type="text"
+            name="text"
+            value={text}
+            onChange={updateFilterValue}
+          />
+        </form>
+
+=====================================================
+#34: Code Category Filter in React JS in Hindi || P-1
+=====================================================
+src\components\FilterSection.js
+
+  const getUniqueData = (data) => {
+    let newVal = data.map((curElem)=>{
+      return curElem.category;
+    });
+    newVal = ["all", ...new Set(newVal)]
+    console.log(newVal);
+  }
+  const categoryOnlyData = getUniqueData(all_products, );
+
+=========================================================
+#35: Working Category Filter in React JS in Hindi || P-2
+=========================================================
+src\context\filter_context.js
+filters: {
+    text: "",
+    category: "all",
+  }
+
+src\components\FilterSection.js
+  <div className="filter-category">
+        <h3>Category</h3>
+        <div>
+          {categoryData.map((curElem, index) => {
+            return (
+              <button
+                key={index} // because of map function 
+                name="category" // this is the name that is define in state
+                value={curElem} //that is value is updating in state
+                onClick={updateFilterValue} // its taking payload as name and value and dispatch via reducer in state filters:{name=value}
+              >
+                {curElem}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+  src\reducer\filterReducer.js
+   const {  category } = state.filters; // getting the value of category from initialState;
+case "FILTER_PRODUCTS"
+      if (category !== "all") {
+        tempFilterProduct = tempFilterProduct.filter((curElem) => {
+          return  curElem.category === category;
+        });
+      }
+
+=========================================================
+#36: Company Wise Filter in React JS in Hindi
+==========================================================
+src\context\filter_context.js
+
+  filters: {
+    text: "",
+    category: "all",
+    company: "all",
+  }
+
+src\components\FilterSection.js
+
+  <div className="filter-company">
+        <h3>Company</h3>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <select className="filter-company--select"
+            name="company"
+            onClick={updateFilterValue}
+            
+          >
+            {companyData.map((curElem) => {
+              return <option className={curElem === company ? 'active': ""} value={curElem}>{curElem}</option>;
+            })}
+          </select>
+        </form>
+      </div>
+
+src\reducer\filterReducer.js
+
+case "FILTER_PRODUCTS"
+        if (company !== "all") {
+        tempFilterProduct = tempFilterProduct.filter((curElem) => {
+          return curElem.company.toLowerCase() === company.toLowerCase();
+        });
+      }
+
+================================================
+#38: Get the Union Of Colors in New Array | P-1
+================================================
+src\components\FilterSection.js
+Option 1 old approach:
+   if (attr === "colors") {
+      return (newVal = ["all", ...new Set([].concat(...newVal))]);
+    } else {
+      return (newVal = ["all", ...new Set(newVal)]);
+    }
+Option 2:
+    if (attr === "colors") {
+      newVal = newVal.flat();
+    }
+
+
+
+=======================================================
+#39: Filter Products based on Colors in React JS | P-2
+========================================================
+src\context\filter_context.js
+initialState=>
+filters: {
+    text: "",
+    category: "all",
+    company: "all",
+    color: "all",
+  },
+
+My Approach:
+src\reducer\filterReducer.js
+      if (color !== "all") {
+        tempFilterProduct = tempFilterProduct.filter((curElem) => {
+          return curElem.colors.find((subcolor) => {
+            return subcolor === color;
+          })
+        });
+      }
+
+    By Thapa:
+          if (color) {
+        tempFilterProduct = tempFilterProduct.filter((curElem) =>
+          curElem.colors.includes(color)
+        );
+      }
+
+src\components\FilterSection.js
+     <div className="filter-colors colors">
+        <h3>Colors</h3>
+
+        <div className="filter-color-style">
+          {colorsData.map((curColor, index) => {
+            return (
+              <button
+                key={index}
+                type="button"
+                value={curColor}
+                name="color"
+                style={{ backgroundColor: curColor }}
+                className="btnStyle"
+                onClick={updateFilterValue}
+              >
+                {color === curColor ? "" : null}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+=========================================================================
+#40: Get the Tick Mark on Colors and All Filter option in React JS | P-3
+=========================================================================
+src\components\FilterSection.js
+        <div className="filter-color-style">
+          {colorsData.map((curColor, index) => {
+           if(curColor === "all"){
+            return (
+              <button
+                key={index}
+                type="button"
+                value={curColor}
+                name="color"
+                className="color-all--style"
+                onClick={updateFilterValue}
+              >
+                All
+              </button>
+            );
+           }
+
+           return (
+            <button
+              key={index}
+              type="button"
+              value={curColor}
+              name="color"
+              style={{ backgroundColor: curColor }}
+              className= {color === curColor ? "btnStyle active" : "btnStyle" }
+              onClick={updateFilterValue}
+            >
+              {color === curColor ? <FaCheck style={{color: "white"}} /> : null}
+            </button>
+          );
+          })}
+        </div>
+
+src\reducer\filterReducer.js
+  if (color !== "all") {
+    tempFilterProduct = tempFilterProduct.filter((curElem) =>
+      curElem.colors.includes(color)
+    );
+  }
+
+===============================================================
+ #41: Find Union Of an Array for Price Filter in React JS | P-1
+ ==============================================================
+ src\reducer\filterReducer.js
+  // 1way
+      console.log(Math.max.apply(null, priceArr));
+
+      // 2nd Way
+      let maxPrice = priceArr.reduce(
+        (initialVal, curVal) => Math.max(initialVal, curVal),
+        0
+      );
+      console.log(
+        "🚀 ~ file: filterReducer.js ~ line 16 ~ filterReducer ~ maxPrice",
+        maxPrice
+      );
+
+      //3rd Way
+
+          let maxPrice = Math.max(...priceArr);
+    console.log(
+      "🚀 ~ file: filterReducer.js ~ line 23 ~ filterReducer ~ maxPrice",
+      maxPrice
+    );
+
+
+=====================================================
+  #42: Input Range Price Filter in React JS | P-2
+======================================================
+src\context\filter_context.js
+ filters: {
+    text: "",
+    category: "all",
+    company: "all",
+    color: "all",
+    price: 0,
+    minPrice: 0,
+    maxPrice: 0,
+  }
+src\components\FilterSection.js
+  price, minPrice, maxPrice
+
+       <div className="filter_price">
+          <h3>Price</h3>
+          <p>
+            <FormatPrice price={price} />
+          </p>
+          <input
+            type="range"
+            name="price"
+            min={minPrice}
+            max={maxPrice}
+            value={price}
+            onChange={updateFilterValue}
+          />
+        </div>
+src\reducer\filterReducer.js
+
+      case "LOAD_FILTER_PRODUCTS":
+      let priceArr = action.payload.map((curElem) => curElem.price);
+      let maxPrice = Math.max(...priceArr);
+      return {
+        ...state,
+        filter_products: [...action.payload],
+        all_products: [...action.payload],
+        filters: { ...state.filters, maxPrice, price: maxPrice },
+      };
+--------------
+            if (price === 0) {
+        tempFilterProduct = tempFilterProduct.filter(
+          (curElem) => curElem.price == price
+        );
+      } else {
+        tempFilterProduct = tempFilterProduct.filter(
+          (curElem) => curElem.price <= price
+        );
+      }
+
+===========================
+#43: Clear Filter Button 
+===========================
+src\components\FilterSection.js
+    updateFilterValue,
+    clearFilters,
+    filters: { text, category, company, color, price, minPrice, maxPrice },
+    all_products,
+  } = useFilterContext();
+
+
+  <div className="filter-clear">
+    <Button className="btn" onClick={clearFilters}>
+      Clear Filters
+    </Button>
+  </div>
+
+
+src\context\filter_context.js
+const clearFilters = () => {
+    dispatch({ type: "CLEAR_FILTERS" });
+  };
+
+  return (
+    <FilterContext.Provider
+      value={{
+        ...state,
+        setGridView,
+        setListView,
+        sorting,
+        updateFilterValue,
+        clearFilters,
+      }}
+    >
+      {children}
+    </FilterContext.Provider>
+  );
+
+  src\reducer\filterReducer.js
+      case "CLEAR_FILTERS":
+
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          text: "",
+          category: "all",
+          company: "all",
+          color: "all",
+          maxPrice: state.filters.maxPrice,
+          price: state.filters.maxPrice,
+          minPrice: state.filters.minPrice,
+        },
+      };
+=============================
+      Add to Cart
+==============================
+
+#44: Creating Context & Reducer for Add To Cart
+
+creat cart_context with corresponding reducer... with export and grapp it in the App.
+
+src\components\AddToCart.js
+<NavLink to="/cart" onClick={() => addToCart(id, color, amount, product)}>
+  <Button className="btn">Add To Cart</Button>
+</NavLink>
+
+
+src\context\cart_context.js
+
+  const addToCart = (id, color, amount, product) => {
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: { id, color, amount, product },
+    });
+  };
+
+   return (
+    <CartContext.Provider value={{ ...state, addToCart }}>
+      {children}
+    </CartContext.Provider>
+  );
+
+src\reducer\cartReducer.js
+not done next video
+
+
+===================================================
+#45: Add Products to the Shopping Cart in React JS
+===================================================
+src\Cart.js
+return (
+    <Wrapper>
+      <div className="container">
+        <div className="cart_heading grid grid-five-column">
+          <p>Item</p>
+          <p className="cart-hide">Price</p>
+          <p>Quantity</p>
+          <p className="cart-hide">Subtotal</p>
+          <p>Remove</p>
+        </div>
+        <hr />
+      </div>
+    </Wrapper>
+  );
+
+  =========================================
+  #46: Create Add To Cart Page Dynamically 
+  =========================================
+src\Cart.js
+  return (
+    <Wrapper>
+      <div className="container">
+        <div className="cart_heading grid grid-five-column">
+          <p>Item</p>
+          <p className="cart-hide">Price</p>
+          <p>Quantity</p>
+          <p className="cart-hide">Subtotal</p>
+          <p>Remove</p>
+        </div>
+        <hr />
+        {cart.map((curElem) => (
+          <CartItem {...curElem} key={curElem.id} />
+        ))}
+      </div>
+    </Wrapper>
+  );
+
+
+src\components\CartItem.jsx
+
+import styled from "styled-components";
+import FormatPrice from "../helpers/FormatPrice";
+import CartAmountToggle from "./CartAmountToggle";
+import { FaTrash } from "react-icons/fa";
+
+const Container = styled.div`
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+`;
+
+const CartInfoContainer = styled.div`
+  display: flex;
+  flex: 1;
+`;
+
+const ImageContainer = styled.div`
+  width: 5vw;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  border-radius: 8px;
+`;
+
+const Info = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+`;
+
+const Title = styled.h4`
+  font-size: 16px;
+  font-weight: 100;
+`;
+
+const ColorBox = styled.div`
+  display: flex;
+  margin-top: 7px;
+`;
+
+const ColorText = styled.span`
+  font-size: 12px;
+  font-weight: 100;
+`;
+
+const ColorIcon = styled.div`
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin: 0px 9px;
+  cursor: pointer;
+  background-color: ${(props) => props.color};
+`;
+
+const PriceBox = styled.div`
+  flex: 2;
+  font-size: 16px;
+`;
+
+const QtyBox = styled.div`
+  flex: 1;
+  text-align: center;
+`;
+const SubtotalBox = styled.div`
+  flex: 1;
+  text-align: right;
+  font-size: 16px;
+`;
+const RemoveBox = styled.div`
+  flex: 1;
+  text-align: right;
+  font-size: 16px;
+  color: red;
+  cursor: pointer;
+`;
+
+const CartItem = ({ id, name, color, amount, image, price, max }) => {
+  const setDecrease = () => {};
+
+  const setIncrease = () => {};
+  return (
+    <Container>
+      <CartInfoContainer>
+        <ImageContainer>
+          <Image src={image} />
+        </ImageContainer>
+        <Info>
+          <Title>{name}</Title>
+          <ColorBox>
+            <ColorText>Color: </ColorText>
+            <ColorIcon color={color} />
+          </ColorBox>
+        </Info>
+      </CartInfoContainer>
+
+      <PriceBox>
+        <FormatPrice price={price} />
+      </PriceBox>
+      <QtyBox>
+        <CartAmountToggle
+          amount={amount}
+          setIncrease={setIncrease}
+          setDecrease={setDecrease}
+        />
+      </QtyBox>
+      <SubtotalBox>{<FormatPrice price={price * amount} />}</SubtotalBox>
+      <RemoveBox>
+        <FaTrash />
+      </RemoveBox>
+    </Container>
+  );
+};
+
+export default CartItem;
+
+=============================================
+#47: Create Remove Button in Add To Cart Page
+=============================================
+src\context\cart_context.js
+  const removeItem = (id) => {
+    dispatch({type: "REMOVE_ITEM", payload: id})
+  }
+
+  <CartContext.Provider value={{ ...state, addToCart, removeItem }}>
+      {children}
+    </CartContext.Provider>
+
+src\components\CartItem.jsx
+ import removeItem;
+ <RemoveBox>
+        <FaTrash onClick={() => removeItem(id)} />
+  </RemoveBox>
+
+src\reducer\cartReducer.js
+  if (action.type === "REMOVE_ITEM") {
+    let updatedCart = state.cart.filter(
+      (curItem) => curItem.id !== action.payload
+    );
+    return {
+      ...state,
+      cart: updatedCart,
+    };
+  }
+================================================================
+ #48: use LocalStorage to Store and Retrieve Shopping Cart items
+ ================================================================
+
+context\cart_context.js
+
+const getLocalCartData = () => {
+  let newCartData = localStorage.getItem("cart");
+  if(newCartData == []){
+    return [];
+  }else{
+    return JSON.parse(newCartData);
+  }
+}
+
+
+
+
+const initialState = {
+  // cart: [],
+  cart: getLocalCartData(),
+};
+
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(state.cart));
+  }, [state.cart]);
+
+============================================================
+ #49: Continue Shopping and Clear Cart Button in Add to Cart
+ ===========================================================
+src\context\cart_context.js
+
+    // to clear the cart
+    const clearCart = () => {
+      dispatch({ type: "CLEAR_CART" });
+    };
+
+    export also;
+
+ src\reducer\cartReducer.js
+  // to empty or to clear to cart
+  if (action.type === "CLEAR_CART") {
+    return {
+      ...state,
+      cart: [],
+    };
+  }
+
+src\Cart.js
+import clearCart;
+ <Button style={{ backgroundColor: "red" }} onClick={clearCart}>
+            Clear
+  </Button>
+ 
+ ====================================
+ #50: Handling Existing Items in Cart
+ ====================================
+
+    if (existingItem) {
+      let updatedCartItem = state.cart.map((curItem) => {
+        if (curItem.id == id + color) {
+          let newAmount = curItem.amount + amount;
+
+          if (newAmount >= curItem.max) {
+            newAmount = curItem.max;
+          }
+
+          return { ...curItem, amount: newAmount };
+        } else {
+          return curItem;
+        }
+      });
+
+      return { ...state, cart: updatedCartItem };
+    }
+  ===================================================
+  #52: Toggle Increment & Decrement Buttons in Cart
+  ===================================================
+
+  D:\React\Thapa\thapareactecom\src\context\cart_context.js
+
+    // Increament
+  const setIncrease = (id) => {
+    dispatch({ type: "SET_INCREAMENT", payload: id });
+  };
+
+  // Decreament
+  const setDecrease = (id) => {
+    dispatch({ type: "SET_DECREAMENT", payload: id });
+  };
+
+D:\React\Thapa\thapareactecom\src\components\CartItem.jsx
+
+         <CartAmountToggle
+            amount={amount}
+            setIncrease={() => setIncrease(id)}
+            setDecrease={() => setDecrease(id)}
+          />
+
+D:\React\Thapa\thapareactecom\src\reducer\cartReducer.js
+
+  if (action.type === "SET_INCREAMENT") {
+    let id = action.payload;
+    let existingQty = state.cart.find((curItem) => curItem.id === id);
+
+    if (existingQty) {
+      let updateQty = state.cart.map((curItem) => {
+        if (curItem.id == id) {
+          let newAmount = curItem.amount + 1;
+          if (newAmount >= curItem.max) {
+            newAmount = curItem.max;
+          }
+          return { ...curItem, amount: newAmount };
+        } else {
+          return curItem;
+        }
+      });
+      return { ...state, cart: updateQty };
+    }
+  }
+
+  if (action.type === "SET_DECREAMENT") {
+    let id = action.payload;
+    let existingQty = state.cart.find((curItem) => curItem.id === id);
+
+    if (existingQty) {
+      let updateQty = state.cart.map((curItem) => {
+        if (curItem.id == id) {
+          let newAmount = curItem.amount - 1;
+          if (newAmount <= 1 ) {
+            newAmount = 1;
+          }
+          return { ...curItem, amount: newAmount };
+        } else {
+          return curItem;
+        }
+      });
+      return { ...state, cart: updateQty };
+    }
+  }
+
+===============================================
+ #53: Updating the total Item Quantity in Cart
+================================================
+D:\React\Thapa\thapareactecom\src\context\cart_context.js
+  total_item: "",
+useEffect(() => {
+    dispatch({type :"CART_TOTAL_ITEM"})
+    localStorage.setItem("cart", JSON.stringify(state.cart));
+  }, [state.cart]);
+
+
+D:\React\Thapa\thapareactecom\src\reducer\cartReducer.js
+My Code Explosure:
+{cart.reduce((accum,item) => accum + item.amount, 0)}
+
+ if (action.type === "TOTAL_CART_ITEM") {
+    let totalCartItem = state.cart.reduce(
+      (accum, item) => accum + item.amount,
+      0
+    );
+
+    return { ...state, totalCount: totalCartItem };
+  }
+Thapa:
+
+   if (action.type === "CART_TOTAL_ITEM") {
+    let updatedItemVal = state.cart.reduce((initialVal, curElem) => {
+      let { amount } = curElem;
+
+      initialVal = initialVal + amount;
+      return initialVal;
+    }, 0);
+
+    return {
+      ...state,
+      total_item: updatedItemVal,
+    };
+  }
+ D:\React\Thapa\thapareactecom\src\components\Nav.js
+ {total_item}
+
+=====================================
+ #54: Calculate The Cart Total Price
+ ====================================
+D:\React\Thapa\thapareactecom\src\reducer\cartReducer.js
+   if (action.type === "CART_TOTAL_PRICE") {
+    let updateItemPrice = state.cart.reduce((initialVal, curElem) => {
+      let { price, amount } = curElem;
+      initialVal = initialVal + price * amount;
+      return initialVal;
+    }, 0);
+
+    return { ...state, total_price: updateItemPrice };
+  }
+
+D:\React\Thapa\thapareactecom\src\Cart.js
+         {/* order total_amount */}
+        <div className="order-total--amount">
+          <div className="order-total--subdata">
+            <div>
+              <p>subtotal:</p>
+              <p>
+                <FormatPrice price={total_price} />
+              </p>
+            </div>
+            <div>
+              <p>shipping fee:</p>
+              <p>
+                <FormatPrice price={shipping_fee} />
+              </p>
+            </div>
+            <hr />
+            <div>
+              <p>order total:</p>
+              <p>
+                <FormatPrice price={shipping_fee + total_price} />
+              </p>
+            </div>
+          </div>
+        </div>
+
+========================================================
+#55: Let's simplify Cart Total & price code with Reduce
+=========================================================
+D:\React\Thapa\thapareactecom\src\reducer\cartReducer.js
+ if (action.type === "CART_ITEM_PRICE_TOTAL") {
+    let { total_item, total_price } = state.cart.reduce(
+      (accum, curElem) => {
+        let { price, amount } = curElem;
+
+        accum.total_item +=  amount; //  accum.total_item + amount;
+         
+        accum.total_price +=  price * amount; //accum.total_price +  price * amount;
+
+        return accum;
+      },
+      {
+        total_item: 0,
+        total_price: 0,
+      }
+    );
+    return {
+      ...state,
+      total_item,
+      total_price,
+    };
+  }
+===============
+HIS Access
+===============
+
+tabRequired => eye
+frmTransactionW: 1,2,4,5,6,7,8,9,10
+frmTransactionMainW: 1,2,4,5,6,7,9,10
+frmPaymentsW: Payments(web):
+1,2,4,5,9,10
+frmPayments: Receipt/Payment Voucher:
+1,2,4,5,9,10
+frmPatientsW:Patients(web)
+1,2,5,6,7
+frmIMTransactions: IM Transactions
+2
