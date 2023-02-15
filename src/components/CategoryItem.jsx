@@ -45,9 +45,9 @@ const Button = styled.button`
 const CategoryItem = ({ item }) => {
     return (
         <Container>
-            <Image src={item.img} />
+            <Image src={item.thumbnail} />
             <Info>
-                <Title>{item.title}</Title>
+                <Title>{item.category}</Title>
                 <Button>Show Now!</Button>
             </Info>
         </Container>

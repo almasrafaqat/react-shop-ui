@@ -1,6 +1,7 @@
+import { Announcement } from "@material-ui/icons";
 import styled from "styled-components";
+import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
-
 
 const Container = styled.div`
   width: 100vw;
@@ -21,8 +22,7 @@ const Wrapper = styled.div`
   width: 25%;
   padding: 20px;
   background-color: white;
-  ${mobile({width: "75%"})}
- 
+  ${mobile({ width: "75%" })}
 `;
 
 const Title = styled.h1`

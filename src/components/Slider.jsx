@@ -1,8 +1,9 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons";
 import { useState } from "react";
 import styled from "styled-components";
-import { sliderItems } from "../data";
+import { useProductContext } from "../context/productcontext";
 import { mobile } from "../responsive";
+import PlaceholderLoading from 'react-placeholder-loading';
 
 const Container = styled.div`
   width: 100%;
@@ -45,7 +46,7 @@ const Slide = styled.div`
   height: 100vh;
   display: flex;
   align-items: center;
-  background-color: #${(props) => props.bg};
+  // background-color: transparent;
 `;
 const ImageContainer = styled.div`
   height: 100%;
@@ -79,6 +80,8 @@ const Button = styled.button`
   cursor: pointer;
 `;
 const Slider = () => {
+  const {products, isLoading} = useProductContext();
+  
   const [slideIndex, setSlideIndex] = useState(0);
   const handleClick = (direction) => {
     if (direction === "left") {
@@ -92,16 +95,17 @@ const Slider = () => {
       <Arrow direction="left" onClick={() => handleClick("left")}>
         <ArrowLeftOutlined />
       </Arrow>
+      
       <Wrapper slideIndex={slideIndex}>
-        {sliderItems.map((item) => {
-          return <Slide key={item.id} bg={item.bg}>
+         { isLoading ? <PlaceholderLoading shape="rect"  width={"99vw"} height={"100vh"} /> : products.slice(0,3)?.map((item) => {
+          return <Slide key={item.id} bg="lightgray">
             <ImageContainer>
-              <Image src={item.img} />
+              <Image src={item.thumbnail} />
             </ImageContainer>
             <InfoContainer>
               <Title>{item.title}</Title>
               <Desc>
-                {item.desc}
+                {item.description}
               </Desc>
               <Button> Buy Now! </Button>
             </InfoContainer>

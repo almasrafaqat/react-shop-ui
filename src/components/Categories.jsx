@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { categories } from '../data';
+import { useProductContext } from '../context/productcontext';
 import { mobile } from '../responsive';
 import CategoryItem from './CategoryItem';
 
@@ -12,10 +12,14 @@ const Container = styled.div`
 `;
 
 const Categories = () => {
+    
+    const {products, categories} = useProductContext();
+    console.log(categories);
+    
     return (
         <Container>
             {
-                categories.map((item) => <CategoryItem item={item} key={item.id} />)
+                categories?.map((item) => <CategoryItem item={item} key={item.id} />)
             }
         </Container>
     )

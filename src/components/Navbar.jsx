@@ -2,7 +2,10 @@ import { Badge } from "@material-ui/core";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
+import { useProductContext } from "../context/productcontext";
+import { Link } from "../GlobalStyle";
 import { mobile } from "../responsive";
+
 
 const Container = styled.div`
   height: 60px;
@@ -46,6 +49,7 @@ const Center = styled.div`
 
 const Logo = styled.h1`
   font-weight: bold;
+  text-transform: uppercase;
   ${mobile({fontSize: "24px"})}
 `;
 const Right = styled.div`
@@ -65,6 +69,7 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
+  const {almas} = useProductContext();
   return (
     <Container>
       <Wrapper>
@@ -76,16 +81,18 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>ALMAS.</Logo>
+          <Link to="/"><Logo>{almas}</Logo></Link>
         </Center>
         <Right>
-          <MenuItem>Register</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
+          <MenuItem><Link to="/register">Register</Link></MenuItem>
+          <MenuItem><Link to="/login">SIGN IN</Link></MenuItem>
+          <Link to="/cart">
           <MenuItem>
-            <Badge badgeContent={4} color="primary">
-              <ShoppingCartOutlined />
+            <Badge overlap="rectangular" badgeContent={4} color="primary">
+            <ShoppingCartOutlined />
             </Badge>
           </MenuItem>
+          </Link>
         </Right>
       </Wrapper>
     </Container>
