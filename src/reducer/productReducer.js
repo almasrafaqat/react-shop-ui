@@ -4,23 +4,24 @@ export const ProductReducer = (state, action) => {
       return { ...state, isLoading: true };
 
     case "API_SET_PRODUCTS":
+      const getUniqeCategory = (data) => {
+        let newVal = data.map((curElem) => {
+          return curElem.category;
+        });
+        return (newVal = [...new Set(newVal)]);
+      };
+      const categoryOnlyData = getUniqeCategory(action.payload);
 
-      
-
-      return { ...state, isLoading: false, products: action.payload };
+      return {
+        ...state,
+        isLoading: false,
+        products: action.payload,
+        categories: categoryOnlyData,
+      };
 
     case "API_ERROR":
       return { ...state, isError: true, isLoading: false };
-    case "SET_CATEGORIES":
-      const getUniqeCategory = (data) => {
-        let newVal = data.map((curElem)=>{
-          return curElem.category;
-        });
-        newVal = [new Set(newVal)]
-        // console.log("Product REducer", newVal);
-      }
-      const categoryOnlyData = getUniqeCategory(state.products);
-      return {...state, categories: categoryOnlyData}
+
     default:
       return state;
   }

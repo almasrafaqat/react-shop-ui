@@ -23,13 +23,13 @@ export const ProductContextProvider = ({ children }) => {
       const res = await axios.get(url);
       const products = await res.data.products;
       dispatch({ type: "API_SET_PRODUCTS", payload: products });
+      
     } catch (error) {
       dispatch({ type: "API_ERROR" });
     }
   };
 
   useEffect(() => {
-    dispatch({type:"SET_CATEGORIES"})
     getProducts(API);
   }, []);
 

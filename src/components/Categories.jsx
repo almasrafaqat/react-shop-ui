@@ -14,12 +14,15 @@ const Container = styled.div`
 const Categories = () => {
     
     const {products, categories} = useProductContext();
-    console.log(categories);
+
+   
+
+    console.log("categories", categories);
     
     return (
         <Container>
             {
-                categories?.map((item) => <CategoryItem item={item} key={item.id} />)
+                categories?.slice(0,3).map((item) => <CategoryItem item={item} key={item.id} />)
             }
         </Container>
     )
