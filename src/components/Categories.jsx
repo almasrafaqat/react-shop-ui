@@ -22,7 +22,7 @@ const Categories = () => {
     return (
         <Container>
             {
-                categories?.slice(0,3).map((item) => <CategoryItem item={item} key={item.id} />)
+                products?.slice(0,3).map((item) => <CategoryItem categories={categories} item={item} key={item.id} />)
             }
         </Container>
     )
