@@ -6,6 +6,7 @@ import CartAmountToggle from "../components/CartAmountToggle";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newletter from "../components/Newletter";
+import Spinner from "../components/Spinner";
 import { useCartContext } from "../context/cartcontext";
 import FormatPrice from "../helper/FormatPrice";
 import { mobile } from "../responsive";
@@ -114,7 +115,6 @@ const Hr = styled.hr`
   background-color: #eee;
   border: none;
   height: 1px;
-  
 `;
 
 const Summary = styled.div`
@@ -150,13 +150,17 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const { cart } = useCartContext();
-  console.log("cart: ", cart);
+  const { cart, cartLoading } = useCartContext();
+  
 
   useEffect(() => {
     // 👇️ scroll to top on page load
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
+
+  if (cartLoading) {
+    return <Spinner />;
+  }
 
   return (
     <Container>
@@ -176,7 +180,6 @@ const Cart = () => {
           <Info>
             {cart.map((curElem) => (
               <>
-                
                 <Product>
                   <ProductDetails>
                     <Image src={curElem.image} />
