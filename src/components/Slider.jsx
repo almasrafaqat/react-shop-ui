@@ -3,7 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useProductContext } from "../context/productcontext";
 import { mobile } from "../responsive";
-import PlaceholderLoading from 'react-placeholder-loading';
+import PlaceholderLoading from "react-placeholder-loading";
 import { Link } from "../GlobalStyle";
 
 const Container = styled.div`
@@ -83,6 +83,9 @@ const Button = styled.button`
 const Slider = () => {
   const { products, isLoading } = useProductContext();
 
+  const shuffle = (products) => [...products].sort(() => Math.random() - 0.5);
+  const ShuffleProducts = shuffle(products);
+
   const [slideIndex, setSlideIndex] = useState(0);
   const handleClick = (direction) => {
     if (direction === "left") {
@@ -98,20 +101,27 @@ const Slider = () => {
       </Arrow>
 
       <Wrapper slideIndex={slideIndex}>
-        {isLoading ? <PlaceholderLoading shape="rect" width={"99vw"} height={"100vh"} /> : products.slice(0, 3)?.map((item) => {
-          return <Slide key={item.id} bg="lightgray">
-            <ImageContainer>
-              <Image src={item.thumbnail} />
-            </ImageContainer>
-            <InfoContainer>
-              <Title>{item.title}</Title>
-              <Desc>
-                {item.description}
-              </Desc>
-              <Button> <Link to={`/singleproduct/${item.id}`}>Buy Now! </Link></Button>
-            </InfoContainer>
-          </Slide>;
-        })}
+        {isLoading ? (
+          <PlaceholderLoading shape="rect" width={"99vw"} height={"100vh"} />
+        ) : (
+          ShuffleProducts.slice(0, 3)?.map((item) => {
+            return (
+              <Slide key={item.id} bg="lightgray">
+                <ImageContainer>
+                  <Image src={item.thumbnail} />
+                </ImageContainer>
+                <InfoContainer>
+                  <Title>{item.title}</Title>
+                  <Desc>{item.description}</Desc>
+                  <Button>
+                    {" "}
+                    <Link to={`/singleproduct/${item.id}`}>Buy Now! </Link>
+                  </Button>
+                </InfoContainer>
+              </Slide>
+            );
+          })
+        )}
       </Wrapper>
       <Arrow direction="right" onClick={() => handleClick("right")}>
         <ArrowRightOutlined />

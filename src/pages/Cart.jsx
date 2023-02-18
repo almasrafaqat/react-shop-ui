@@ -1,9 +1,13 @@
 import { Add, Remove } from "@material-ui/icons";
+import { useEffect } from "react";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
+import CartAmountToggle from "../components/CartAmountToggle";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newletter from "../components/Newletter";
+import { useCartContext } from "../context/cartcontext";
+import FormatPrice from "../helper/FormatPrice";
 import { mobile } from "../responsive";
 
 const Container = styled.div``;
@@ -72,15 +76,18 @@ const Details = styled.div`
   justify-content: space-around;
 `;
 const ProductName = styled.span``;
+
+const ProductRating = styled.span`
+
+`;
+
 const ProductId = styled.span``;
 
-const ProductColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
+const ProductBrand = styled.div`
+
+
 `;
-const ProductSize = styled.span``;
+
 const PriceDetails = styled.div`
   flex: 1;
   display: flex;
@@ -146,6 +153,14 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const { cart } = useCartContext();
+  console.log("cart: ", cart);
+
+  useEffect(() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <Container>
       <Navbar />
@@ -162,57 +177,33 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetails>
-                <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                <Details>
-                  <ProductName>
-                    <b>Product: </b> Geniune Leather Hand Made in Pakistan
-                  </ProductName>
-                  <ProductId>
-                    <b>ID: 25467878 </b>
-                  </ProductId>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    <b>Size: </b> Small
-                  </ProductSize>
-                </Details>
-              </ProductDetails>
-              <PriceDetails>
-                <ProductAmountContainer>
-                  <Add />
-                  <Amount>2</Amount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 40</ProductPrice>
-              </PriceDetails>
-            </Product>
-            <Hr />
-            <Product>
-              <ProductDetails>
-                <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                <Details>
-                  <ProductName>
-                    <b>Product: </b> Geniune Leather Hand Made in Pakistan
-                  </ProductName>
-                  <ProductId>
-                    <b>ID: 25467878 </b>
-                  </ProductId>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    <b>Size: </b> Small
-                  </ProductSize>
-                </Details>
-              </ProductDetails>
-              <PriceDetails>
-                <ProductAmountContainer>
-                  <Add />
-                  <Amount>2</Amount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 40</ProductPrice>
-              </PriceDetails>
-            </Product>
+            {cart.map((curElem) => (
+             
+              <Product>
+                <ProductDetails>
+                  <Image src={curElem.image} />
+                  <Details>
+                    <ProductName>
+                      <b>Product: </b> {curElem.name}
+                    </ProductName>
+                    <ProductRating>
+                      <b>Rating: </b> <b style={{color: "teal"}}>{curElem.rating}</b>
+                    </ProductRating>
+                    <ProductId>
+                      <b>ID: {curElem.id} </b>
+                    </ProductId>
+                    <ProductBrand><b>Brand: </b>{curElem.brand}</ProductBrand>
+                  
+                  </Details>
+                </ProductDetails>
+                <PriceDetails>
+                  <ProductAmountContainer>
+                    <CartAmountToggle amount={curElem.amount} />
+                  </ProductAmountContainer>
+                  <ProductPrice> <FormatPrice price={curElem.price} /> </ProductPrice>
+                </PriceDetails>
+              </Product>
+            ))}
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY </SummaryTitle>

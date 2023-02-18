@@ -4,9 +4,12 @@
 // import ProductList from "./pages/ProductList";
 // import Register from "./pages/Register";
 // import Login from "./pages/SignIn";
+// import CategoryPage from "./pages/CategoryPage";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { GloablStyle } from "./GlobalStyle";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import Scroll from "./components/ScrollBar";
 import Spinner from "./components/Spinner";
 
 
@@ -23,7 +26,9 @@ function App() {
  
   return (
     <Router>
+      {/* <GloablStyle /> */}
       <GloablStyle />
+      <Scroll/>
       <Suspense fallback={<Spinner/>}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -35,6 +40,7 @@ function App() {
           <Route path="/login" element={<Login />} />
         </Routes>
       </Suspense>
+
     </Router>
   );
 }

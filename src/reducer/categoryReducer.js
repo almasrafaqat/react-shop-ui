@@ -1,5 +1,3 @@
-import { isError } from "@jest/expect-utils";
-
 const categoryReducer = (state, action) => {
     switch (action.type) {
         case "CATEGORY_API_LOADING":

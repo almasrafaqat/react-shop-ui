@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -19,30 +20,29 @@ const FilterContainer = styled.div`
 
 const Filter = styled.div`
   margin: 20px;
-  ${mobile({display: "flex", flexDirection: "column"})}
+  ${mobile({ display: "flex", flexDirection: "column" })}
 `;
 
 const FilterText = styled.span`
   font-size: 20px;
   font-weight: 600;
   margin-right: 20px;
-  ${mobile({ marginRight: "0px"})}
-  
+  ${mobile({ marginRight: "0px" })}
 `;
 
 const Select = styled.select`
   padding: 10px;
   margin-right: 20px;
-  ${mobile({margin: "10px 0px"})}
-  
+  ${mobile({ margin: "10px 0px" })}
 `;
 
-const Option = styled.option`
-
-`;
+const Option = styled.option``;
 
 const ProductList = () => {
- 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <Container>
       <Navbar />

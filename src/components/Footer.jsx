@@ -9,6 +9,7 @@ import {
   Twitter,
 } from "@material-ui/icons";
 import styled from "styled-components";
+import { Link } from "../GlobalStyle";
 import { mobile } from "../responsive";
 
 const Container = styled.div`
@@ -111,16 +112,11 @@ const Footer = () => {
       <Center>
         <Title>Userful Links</Title>
         <List>
-          <ListItem>Home</ListItem>
-          <ListItem>Cart</ListItem>
-          <ListItem>Man Fashion</ListItem>
-          <ListItem>Woman Fashion</ListItem>
-          <ListItem>Accessories</ListItem>
-          <ListItem>My Account</ListItem>
-          <ListItem>Order Tracking</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Terms</ListItem>
+          <ListItem><Link to="/">Home</Link></ListItem>
+          <ListItem><Link to="/cart">Cart</Link></ListItem>
+          <ListItem><Link to="/login">SignIn</Link></ListItem>
+          <ListItem><Link to="/register">Register</Link></ListItem>
+          <ListItem><Link to="/shop">Shop</Link></ListItem>
         </List>
       </Center>
       <Right>

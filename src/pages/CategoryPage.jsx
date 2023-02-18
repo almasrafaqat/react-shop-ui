@@ -61,15 +61,9 @@ const CategoryPage = () => {
   const { getProductByCategory, categoryWiseProduct } = useCategoryContext();
 
   const { products } = categoryWiseProduct;
-  console.log("Category PAge", products);
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, []);
-
-
-
-  useEffect(() => {
+    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
     getProductByCategory(`${API}/${slug}`);
   }, [])
 

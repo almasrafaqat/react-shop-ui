@@ -18,10 +18,7 @@ const Title = styled.h3`
     font-size: 20px;
     font-weight: 300;
     padding: 50px;
-    width: fit-content;
-    /* border-bottom: 1px solid #ccc;
-    border-block-end-width: thick; 
-    writing-mode: horizontal-tb; */
+
 `
 
 const Categories = () => {

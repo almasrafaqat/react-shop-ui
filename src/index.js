@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import { CartContextProvider } from "./context/cartcontext";
 import { CategoryContextProvider } from "./context/categorycontext";
 import { ProductContextProvider } from "./context/productcontext";
 import reportWebVitals from "./reportWebVitals";
@@ -10,7 +11,9 @@ root.render(
   <React.StrictMode>
     <ProductContextProvider>
       <CategoryContextProvider>
-        <App />
+        <CartContextProvider>
+          <App />
+        </CartContextProvider>
       </CategoryContextProvider>
     </ProductContextProvider>
   </React.StrictMode>
