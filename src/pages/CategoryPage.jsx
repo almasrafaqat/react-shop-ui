@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import Newletter from "../components/Newletter";
 import Product from "../components/Product";
 import Products from "../components/Products";
+import Spinner from "../components/Spinner";
 import { useCategoryContext } from "../context/categorycontext";
 import { mobile } from "../responsive";
 
@@ -23,12 +24,11 @@ const FilterContainer = styled.div`
 `;
 
 const ProductContainer = styled.div`
- padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `;
-
 
 const Filter = styled.div`
   margin: 20px;
@@ -40,33 +40,32 @@ const FilterText = styled.span`
   font-weight: 600;
   margin-right: 20px;
   ${mobile({ marginRight: "0px" })}
-  
 `;
 
 const Select = styled.select`
   padding: 10px;
   margin-right: 20px;
   ${mobile({ margin: "10px 0px" })}
-  
 `;
 
-const Option = styled.option`
-
-`;
+const Option = styled.option``;
 
 const CategoryPage = () => {
-
   const { slug } = useParams();
   const API = "https://dummyjson.com/products/category";
-  const { getProductByCategory, categoryWiseProduct } = useCategoryContext();
+  const { getProductByCategory, categoryWiseProduct, productByCatLoading } =
+    useCategoryContext();
 
   const { products } = categoryWiseProduct;
 
   useEffect(() => {
-    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     getProductByCategory(`${API}/${slug}`);
-  }, [])
+  }, []);
 
+  if (productByCatLoading) {
+    return <Spinner />;
+  }
 
   return (
     <Container>
@@ -108,9 +107,8 @@ const CategoryPage = () => {
         </Filter>
       </FilterContainer>
       <ProductContainer>
-        {
-          products && products.map((item) => <Product key={item.id} item={item} />)
-        }
+        {products &&
+          products.map((item) => <Product key={item.id} item={item} />)}
       </ProductContainer>
       <Newletter />
       <Footer />

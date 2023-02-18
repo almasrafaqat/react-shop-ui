@@ -24,13 +24,21 @@ export const ProductReducer = (state, action) => {
 
     //Single Product
     case "SET_SINGLE_PRODUCT_LOADING":
-      return { ...state, SET_SINGLE_PRODUCT_LOADING: true }
+      return { ...state, singleProductLoading: true };
 
     case "API_SET_SINGLE_PRODUCTS":
-      return { ...state, SingleProduct: action.payload };
+      return {
+        ...state,
+        singleProductLoading: false,
+        SingleProduct: action.payload,
+      };
 
     case "SET_SINGLE_PRODUCT_ERROR":
-      return { ...state, isError: true, singleProductLoading: false };
+      return {
+        ...state,
+        isError: true,
+        singleProductLoading: false,
+      };
     default:
       return state;
   }

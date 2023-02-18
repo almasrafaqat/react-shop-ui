@@ -77,16 +77,11 @@ const Details = styled.div`
 `;
 const ProductName = styled.span``;
 
-const ProductRating = styled.span`
-
-`;
+const ProductRating = styled.span``;
 
 const ProductId = styled.span``;
 
-const ProductBrand = styled.div`
-
-
-`;
+const ProductBrand = styled.div``;
 
 const PriceDetails = styled.div`
   flex: 1;
@@ -109,17 +104,17 @@ const Amount = styled.span`
 `;
 
 const ProductPrice = styled.div`
-  font-size: ${props => props.type === "original" ? "18px" : "30px"};
-  font-weight: ${props => props.type !== "original" && "200"};;
+  font-size: ${(props) => (props.type === "original" ? "18px" : "30px")};
+  font-weight: ${(props) => props.type !== "original" && "200"};
 
   ${mobile({ marginBottom: "20px" })};
-
 `;
 
 const Hr = styled.hr`
   background-color: #eee;
   border: none;
   height: 1px;
+  
 `;
 
 const Summary = styled.div`
@@ -180,32 +175,43 @@ const Cart = () => {
         <Bottom>
           <Info>
             {cart.map((curElem) => (
-             
-              <Product>
-                <ProductDetails>
-                  <Image src={curElem.image} />
-                  <Details>
-                    <ProductName>
-                      <b>Product: </b> {curElem.name}
-                    </ProductName>
-                    <ProductRating>
-                      <b>Rating: </b> <b style={{color: "teal"}}>{curElem.rating}</b>
-                    </ProductRating>
-                    <ProductId>
-                      <b>ID: {curElem.id} </b>
-                    </ProductId>
-                    <ProductPrice type="original"><b>Price: </b><FormatPrice price={curElem.price} /></ProductPrice>
-                    <ProductBrand><b>Brand: </b>{curElem.brand}</ProductBrand>
-                  
-                  </Details>
-                </ProductDetails>
-                <PriceDetails>
-                  <ProductAmountContainer>
-                    <CartAmountToggle amount={curElem.amount} />
-                  </ProductAmountContainer>
-                  <ProductPrice> <FormatPrice price={curElem.price * curElem.amount} /> </ProductPrice>
-                </PriceDetails>
-              </Product>
+              <>
+                
+                <Product>
+                  <ProductDetails>
+                    <Image src={curElem.image} />
+                    <Details>
+                      <ProductName>
+                        <b>Product: </b> {curElem.name}
+                      </ProductName>
+                      <ProductRating>
+                        <b>Rating: </b>{" "}
+                        <b style={{ color: "teal" }}>{curElem.rating}</b>
+                      </ProductRating>
+                      <ProductId>
+                        <b>ID: {curElem.id} </b>
+                      </ProductId>
+                      <ProductPrice type="original">
+                        <b>Price: </b>
+                        <FormatPrice price={curElem.price} />
+                      </ProductPrice>
+                      <ProductBrand>
+                        <b>Brand: </b>
+                        {curElem.brand}
+                      </ProductBrand>
+                    </Details>
+                  </ProductDetails>
+                  <PriceDetails>
+                    <ProductAmountContainer>
+                      <CartAmountToggle amount={curElem.amount} />
+                    </ProductAmountContainer>
+                    <ProductPrice>
+                      <FormatPrice price={curElem.price * curElem.amount} />
+                    </ProductPrice>
+                  </PriceDetails>
+                </Product>
+                <Hr />
+              </>
             ))}
           </Info>
           <Summary>
