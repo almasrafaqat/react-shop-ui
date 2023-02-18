@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { useProductContext } from "../context/productcontext";
 import { popularProducts } from "../data";
 import Product from "./Product";
 
@@ -10,15 +11,27 @@ const Container = styled.div`
     justify-content: space-between;
 `;
 
+const Title = styled.h3`
+    width: fit-content;
+    font-size: 20px;
+    font-weight: 300;
+    padding: 30px;
+`
+
 const Products = () => {
+    const { products } = useProductContext();
+
     return (
-        <Container>
-            {
-                popularProducts.map((item) => (
-                    <Product item={item} key={item.id} />
-                ))
-            }
-        </Container>
+        <>
+            <Title>Shop By Products</Title>
+            <Container>
+                {
+                    products.map((item) => (
+                        <Product item={item} key={item.id} />
+                    ))
+                }
+            </Container>
+        </>
     )
 }
 

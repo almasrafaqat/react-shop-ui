@@ -16,12 +16,21 @@ export const ProductReducer = (state, action) => {
         ...state,
         isLoading: false,
         products: action.payload,
-        categories: categoryOnlyData,
+        productCategory: categoryOnlyData,
       };
 
     case "API_ERROR":
       return { ...state, isError: true, isLoading: false };
 
+    //Single Product
+    case "SET_SINGLE_PRODUCT_LOADING":
+      return { ...state, SET_SINGLE_PRODUCT_LOADING: true }
+
+    case "API_SET_SINGLE_PRODUCTS":
+      return { ...state, SingleProduct: action.payload };
+
+    case "SET_SINGLE_PRODUCT_ERROR":
+      return { ...state, isError: true, singleProductLoading: false };
     default:
       return state;
   }

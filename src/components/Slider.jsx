@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useProductContext } from "../context/productcontext";
 import { mobile } from "../responsive";
 import PlaceholderLoading from 'react-placeholder-loading';
+import { Link } from "../GlobalStyle";
 
 const Container = styled.div`
   width: 100%;
@@ -12,7 +13,7 @@ const Container = styled.div`
   position: relative;
   background-color: coral;
   overflow: hidden;
-  ${mobile({display: "none"})}
+  ${mobile({ display: "none" })}
 `;
 
 const Arrow = styled.div`
@@ -80,8 +81,8 @@ const Button = styled.button`
   cursor: pointer;
 `;
 const Slider = () => {
-  const {products, isLoading} = useProductContext();
-  
+  const { products, isLoading } = useProductContext();
+
   const [slideIndex, setSlideIndex] = useState(0);
   const handleClick = (direction) => {
     if (direction === "left") {
@@ -95,9 +96,9 @@ const Slider = () => {
       <Arrow direction="left" onClick={() => handleClick("left")}>
         <ArrowLeftOutlined />
       </Arrow>
-      
+
       <Wrapper slideIndex={slideIndex}>
-         { isLoading ? <PlaceholderLoading shape="rect"  width={"99vw"} height={"100vh"} /> : products.slice(0,3)?.map((item) => {
+        {isLoading ? <PlaceholderLoading shape="rect" width={"99vw"} height={"100vh"} /> : products.slice(0, 3)?.map((item) => {
           return <Slide key={item.id} bg="lightgray">
             <ImageContainer>
               <Image src={item.thumbnail} />
@@ -107,7 +108,7 @@ const Slider = () => {
               <Desc>
                 {item.description}
               </Desc>
-              <Button> Buy Now! </Button>
+              <Button> <Link to={`/singleproduct/${item.id}`}>Buy Now! </Link></Button>
             </InfoContainer>
           </Slide>;
         })}

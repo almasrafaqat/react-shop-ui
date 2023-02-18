@@ -930,6 +930,8 @@ src\components\FilterSection.js
   }
   const categoryOnlyData = getUniqueData(all_products, );
 
+  other way:  const categoryOnlyData = [...new Set(action.payload.map((product) => product.category))];
+
 =========================================================
 #35: Working Category Filter in React JS in Hindi || P-2
 =========================================================

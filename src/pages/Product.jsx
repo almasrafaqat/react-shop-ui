@@ -1,10 +1,14 @@
 import { Add, AtmOutlined, MenuSharp, Remove } from "@material-ui/icons";
+import { useEffect } from "react";
+import { useParams } from "react-router";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newletter from "../components/Newletter";
+import { useProductContext } from "../context/productcontext";
 import { mobile } from "../responsive";
+import Spinner from "../components/Spinner";
 
 const Container = styled.div``;
 
@@ -28,6 +32,10 @@ const Image = styled.img`
 const Title = styled.span`
   font-size: 30px;
   font-weight: 200;
+`;
+
+const Rating = styled.div`
+  margin-top: 10px;
 `;
 
 const Desc = styled.p`
@@ -63,21 +71,14 @@ const FilterText = styled.span`
   font-weight: 200;
 `;
 
-const FilterColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
+const FilterName = styled.div`
+  
   margin: 0px 5px;
   cursor: pointer;
-  background-color: ${(props) => props.color};
 `;
 
-const FilterSize = styled.select`
-  padding: 10px;
-  margin-left: 10px;
-`;
 
-const FilterSizeOption = styled.option``;
+
 
 const AddContainer = styled.div`
   margin-top: 20px;
@@ -87,6 +88,7 @@ const AddContainer = styled.div`
   justify-content: space-between;
   ${mobile({ width: "100%" })}
 `;
+const Stock = styled.div``;
 
 const AmountContainer = styled.div`
   display: flex;
@@ -115,53 +117,59 @@ const Button = styled.button`
   }
 `;
 
+const API = "https://dummyjson.com/products"
 const Product = () => {
+  const { getSingleProduct, SingleProduct, singleProductLoading } = useProductContext();
+  const { id } = useParams();
+  const { brand, category, description, price, rating, stock, thumbnail, title } = SingleProduct;
+
+  useEffect(() => {
+    getSingleProduct(`${API}/${id}`);
+  }, []);
+
+
   return (
     <Container>
       <Navbar />
       <Announcement />
-      <Wrapper>
-        <ImageContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
-        </ImageContainer>
-        <InfoContainer>
-          <Title>Denim Jumpsuit</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-            iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-            tristique tortor pretium ut. Curabitur elit justo, consequat id
-            condimentum ac, volutpat ornare.
-          </Desc>
-          <Price>$ 45</Price>
-          <FilterContainer>
-            <Filter>
-              <FilterText>Color</FilterText>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-              <FilterColor color="gray" />
+      {
+        singleProductLoading ? <Spinner/> : <Wrapper>
+          <ImageContainer>
+            <Image src={thumbnail} />
+          </ImageContainer>
+          <InfoContainer>
+            <Title>{title}</Title>
+            <Rating>Rating:  <b style={{color: "teal"}}>{rating}</b></Rating>
+            <Desc>
+              {description}
+            </Desc>
+            <Price>$ {price}</Price>
+            <FilterContainer>
+              <Filter>
+                <FilterText>Brand: </FilterText>
+                <FilterName>{brand}</FilterName>
+              </Filter>
+              <Filter>
+              <FilterText>Category: </FilterText>
+              <FilterName>{category}</FilterName>
             </Filter>
-            <Filter>
-              <FilterText>Size</FilterText>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
-              </FilterSize>
-            </Filter>
-          </FilterContainer>
-          <AddContainer>
-            <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
-            </AmountContainer>
-            <Button>Add to Cart</Button>
-          </AddContainer>
-        </InfoContainer>
-      </Wrapper>
+  
+            </FilterContainer>
+            <Stock>Stock: <b>{stock}</b></Stock>
+            <AddContainer>
+           
+              <AmountContainer>
+                <Remove style={{cursor: "pointer"}}/>
+                <Amount>1</Amount>
+                <Add  style={{cursor: "pointer"}} />
+              </AmountContainer>
+              <Button>Add to Cart</Button>
+            </AddContainer>
+          </InfoContainer>
+        </Wrapper>
+
+      }
+
       <Newletter />
 
       <Footer />

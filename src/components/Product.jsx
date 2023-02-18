@@ -1,5 +1,6 @@
 import { FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from "@material-ui/icons";
 import styled from "styled-components"
+import { Link } from "../GlobalStyle";
 
 const Info = styled.div`
     opacity: 0;
@@ -8,6 +9,7 @@ const Info = styled.div`
     position: absolute;
     top: 0;
     left: 0;
+    bottom: 5;
     background-color: rgba(0, 0, 0, 0.2);
     z-index: 3;
     display: flex;
@@ -46,6 +48,7 @@ const Circle = styled.div`
 
 const Image = styled.img`
     height: 75%;
+    width: 100%;
     z-index: 2;
 `;
 
@@ -68,24 +71,24 @@ const Icon = styled.div`
     }
 `;
 
-const Product = ({item}) => {
-  return (
-    <Container>
-    <Circle />
-        <Image src={item.img} alt={item.title} />
-        <Info>
-            <Icon>
-                <ShoppingCartOutlined/>
-            </Icon>
-            <Icon>
-                <SearchOutlined/>
-            </Icon>
-            <Icon>
-                <FavoriteBorderOutlined/>
-            </Icon>
-        </Info>
-    </Container>
-  )
+
+
+const Product = ({ item }) => {
+    return (
+        <Container>
+            <Circle />
+            <Image src={item.thumbnail} alt={item.title} />
+            <Link to={`/singleproduct/${item.id}`}>
+                <Info>
+                    <Icon>
+                        <ShoppingCartOutlined />
+
+                    </Icon>
+                
+                </Info>
+            </Link>
+        </Container>
+    )
 }
 
 export default Product

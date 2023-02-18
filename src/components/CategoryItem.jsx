@@ -1,56 +1,43 @@
 import styled from "styled-components"
+import { Link } from "../GlobalStyle";
 import { mobile } from "../responsive";
 
 
 const Container = styled.div`
+    min-width : 5vw;
+    height : 10vh;
+    border: 2px solid teal;
+    padding: 0.5em;
     flex: 1;
-    margin: 3px;
-    height: 70vh;
-    position: relative;
-
-`;
-const Image = styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    ${mobile({height: "30vh"})}
-`;
-
-const Info = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-`;
-
-const Title = styled.h1`
-    color:white;
-    margin-bottom: 20px;
-`;
-
-const Button = styled.button`
-    border:none;
-    padding: 10px;
-    background-color: white;
-    color:gray;
+    align-items: center;
+    margin: 0.5em;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: 600;
+    text-transform: capitalize;
+    border-block-end-width: thick; 
+    writing-mode: horizontal-tb;
+    
+
 `;
+
+
+
+const Title = styled.h6`
+    font-size: 18px;
+    font-weight: 500;
+`
 
 const CategoryItem = ({ item }) => {
     return (
+
         <Container>
-            <Image src={item.img} />
-            <Info>
+            <Link to={`/category/${item}`}>
                 <Title>{item}</Title>
-                <Button>{item } Show Now!</Button>
-            </Info>
+            </Link>
         </Container>
+
     )
 }
 
