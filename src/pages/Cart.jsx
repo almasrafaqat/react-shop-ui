@@ -109,9 +109,11 @@ const Amount = styled.span`
 `;
 
 const ProductPrice = styled.div`
-  font-size: 30px;
-  font-weight: 200;
-  ${mobile({ marginBottom: "20px" })}
+  font-size: ${props => props.type === "original" ? "18px" : "30px"};
+  font-weight: ${props => props.type !== "original" && "200"};;
+
+  ${mobile({ marginBottom: "20px" })};
+
 `;
 
 const Hr = styled.hr`
@@ -192,6 +194,7 @@ const Cart = () => {
                     <ProductId>
                       <b>ID: {curElem.id} </b>
                     </ProductId>
+                    <ProductPrice type="original"><b>Price: </b><FormatPrice price={curElem.price} /></ProductPrice>
                     <ProductBrand><b>Brand: </b>{curElem.brand}</ProductBrand>
                   
                   </Details>
@@ -200,7 +203,7 @@ const Cart = () => {
                   <ProductAmountContainer>
                     <CartAmountToggle amount={curElem.amount} />
                   </ProductAmountContainer>
-                  <ProductPrice> <FormatPrice price={curElem.price} /> </ProductPrice>
+                  <ProductPrice> <FormatPrice price={curElem.price * curElem.amount} /> </ProductPrice>
                 </PriceDetails>
               </Product>
             ))}

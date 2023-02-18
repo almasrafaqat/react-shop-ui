@@ -2,7 +2,7 @@ const CartReducer = (state, action) => {
   switch (action.type) {
     case "ADD_TO_CART":
       let { id, amount, product } = action.payload;
-      console.log("action.payload: ", action.payload);
+      
       let cartProduct;
       cartProduct = {
         id: id,
