@@ -70,27 +70,27 @@ const ProductList = () => {
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
-          <Select name="category" onChange={updateFilterValue}>
+          <Select name="category" value={category} onChange={updateFilterValue}>
             <Option disabled>Category</Option>
-            {getCategoryData.map((category, index) => (
-              <Option key={index} value={category}>
-                {category}
+            {getCategoryData.map((curCategory, index) => (
+              <Option key={index} value={curCategory}>
+                {curCategory}
               </Option>
             ))}
           </Select>
-          <Select name="brand" onChange={updateFilterValue}>
+          <Select name="brand" value={brand} onChange={updateFilterValue}>
             <Option disabled>Brand</Option>
-            {getBrandData.map((brand, index) => (
-              <Option key={index} value={brand}>
-                {brand}
+            {getBrandData.map((curBrand, index) => (
+              <Option key={index} value={curBrand}>
+                {curBrand}
               </Option>
             ))}
           </Select>
-          <Select name="rating" onChange={updateFilterValue}>
+          <Select name="rating" value={rating} onChange={updateFilterValue}>
             <Option disabled>Rating</Option>
-            {getRatingData.map((rating, index) => (
-              <Option key={index} value={rating}>
-                {rating}
+            {getRatingData.map((curRating, index) => (
+              <Option key={index} value={curRating}>
+                {curRating}
               </Option>
             ))}
           </Select>
