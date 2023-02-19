@@ -8,6 +8,7 @@ import Navbar from "../components/Navbar";
 import Newletter from "../components/Newletter";
 import Spinner from "../components/Spinner";
 import { useCartContext } from "../context/cartcontext";
+import { Link } from "../GlobalStyle";
 import FormatPrice from "../helper/FormatPrice";
 import { mobile } from "../responsive";
 
@@ -68,7 +69,10 @@ const ProductDetails = styled.div`
   display: flex;
 `;
 const Image = styled.img`
-  width: 200px;
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+
 `;
 const Details = styled.div`
   padding: 20px;
@@ -182,7 +186,7 @@ const Cart = () => {
               <>
                 <Product>
                   <ProductDetails>
-                    <Image src={curElem.image} />
+                    <Link to={`/singleproduct/${curElem.id}`}><Image src={curElem.image} /></Link>
                     <Details>
                       <ProductName>
                         <b>Product: </b> {curElem.name}
