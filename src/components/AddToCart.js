@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import CartAmountToggle from "./CartAmountToggle";
 import { Link } from "../GlobalStyle";
-import {  useCartContext } from "../context/cartcontext";
+import { useCartContext } from "../context/cartcontext";
 
 const Button = styled.button`
   padding: 15px;
@@ -16,16 +16,14 @@ const Button = styled.button`
 `;
 
 const AddToCart = ({ product }) => {
-    const {id, stock} = product;
-    const {addToCart} = useCartContext();
+  const { id, stock } = product;
+  const { addToCart } = useCartContext();
   const [amount, setAmount] = useState(1);
 
-  const setIncrease = () => {
-    setAmount(amount + 1);
-  };
-  const setDecrease = () => {
-    setAmount(amount - 1);
-  };
+  const setIncrease = () =>
+    amount < stock ? setAmount(amount + 1) : setAmount(stock);
+
+  const setDecrease = () => (amount > 1 ? setAmount(amount - 1) : setAmount(1));
   return (
     <>
       <CartAmountToggle

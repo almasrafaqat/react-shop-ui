@@ -5,6 +5,8 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newletter from "../components/Newletter";
 import Products from "../components/Products";
+import ShopProducts from "../components/ShopProducts";
+import { useFilterContext } from "../context/filtercontext";
 import { mobile } from "../responsive";
 
 const Container = styled.div``;
@@ -33,12 +35,29 @@ const FilterText = styled.span`
 const Select = styled.select`
   padding: 10px;
   margin-right: 20px;
+  text-transform: uppercase;
   ${mobile({ margin: "10px 0px" })}
 `;
 
 const Option = styled.option``;
 
 const ProductList = () => {
+  const {
+    sorting,
+    all_products,
+    updateFilterValue,
+    filters: { category, brand, rating, price },
+  } = useFilterContext();
+
+  const getUniqueData = (data, attr) => {
+    let newVal = data.map((curElem) => curElem[attr]);
+    return (newVal = ["all", ...new Set(newVal)]);
+  };
+
+  const getCategoryData = getUniqueData(all_products, "category");
+  const getBrandData = getUniqueData(all_products, "brand");
+  const getRatingData = getUniqueData(all_products, "rating");
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
@@ -47,42 +66,56 @@ const ProductList = () => {
     <Container>
       <Navbar />
       <Announcement />
-      <Title>Samsung</Title>
+      <Title>Shop</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
-          <Select>
-            <Option disabled selected>
-              Color
-            </Option>
-            <Option>White</Option>
-            <Option>Black</Option>
-            <Option>Red</Option>
-            <Option>Blue</Option>
-            <Option>Yellow</Option>
-            <Option>Green</Option>
+          <Select name="category" onChange={updateFilterValue}>
+            <Option disabled>Category</Option>
+            {getCategoryData.map((category, index) => (
+              <Option key={index} value={category}>
+                {category}
+              </Option>
+            ))}
           </Select>
-          <Select>
-            <Option disabled selected>
-              Size
-            </Option>
-            <Option>XS</Option>
-            <Option>S</Option>
-            <Option>M</Option>
-            <Option>L</Option>
-            <Option>XL</Option>
+          <Select name="brand" onChange={updateFilterValue}>
+            <Option disabled>Brand</Option>
+            {getBrandData.map((brand, index) => (
+              <Option key={index} value={brand}>
+                {brand}
+              </Option>
+            ))}
+          </Select>
+          <Select name="rating" onChange={updateFilterValue}>
+            <Option disabled>Rating</Option>
+            {getRatingData.map((rating, index) => (
+              <Option key={index} value={rating}>
+                {rating}
+              </Option>
+            ))}
           </Select>
         </Filter>
+        <Filter>12 Products Available </Filter>
         <Filter>
           <FilterText>Sort Products:</FilterText>
-          <Select>
-            <Option selected>Newest</Option>
-            <Option>Price (asc)</Option>
-            <Option>Price (desc)</Option>
+          <Select onClick={sorting}>
+            <Option value="lowest">Price (Lowest)</Option>
+            <Option value="highest">Price (Highest)</Option>
+            <Option value="a-z">Product (Asc)</Option>
+            <Option value="z-a">Product (Desc)</Option>
           </Select>
         </Filter>
       </FilterContainer>
-      <Products />
+      <Filter>
+        <input
+          type="range"
+          name="price"
+          min="0"
+          max="100"
+          onChange={updateFilterValue}
+        />
+      </Filter>
+      <ShopProducts />
       <Newletter />
       <Footer />
     </Container>

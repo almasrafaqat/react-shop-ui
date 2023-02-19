@@ -26,7 +26,7 @@ function App() {
  
   return (
     <Router>
-      {/* <GloablStyle /> */}
+    
       <GloablStyle />
       <Scroll/>
       <Suspense fallback={<Spinner/>}>

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { CartContextProvider } from "./context/cartcontext";
 import { CategoryContextProvider } from "./context/categorycontext";
+import { FilterContextProvider } from "./context/filtercontext";
 import { ProductContextProvider } from "./context/productcontext";
 import reportWebVitals from "./reportWebVitals";
 
@@ -12,7 +13,9 @@ root.render(
     <ProductContextProvider>
       <CategoryContextProvider>
         <CartContextProvider>
-          <App />
+          <FilterContextProvider>
+            <App />
+          </FilterContextProvider>
         </CartContextProvider>
       </CategoryContextProvider>
     </ProductContextProvider>
