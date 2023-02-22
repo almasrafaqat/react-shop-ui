@@ -10,6 +10,7 @@ import { mobile } from "../responsive";
 import Spinner from "../components/Spinner";
 import FormatPrice from "../helper/FormatPrice";
 import AddToCart from "../components/AddToCart";
+import { Link } from "../GlobalStyle";
 
 const Container = styled.div``;
 
@@ -139,7 +140,7 @@ const Product = () => {
               </Filter>
               <Filter>
                 <FilterText>Category: </FilterText>
-                <FilterName>{category}</FilterName>
+                <Link to={`/category/${category}`}><FilterName>{category}</FilterName></Link>
               </Filter>
             </FilterContainer>
             <Stock>
