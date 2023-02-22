@@ -153,7 +153,7 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const { cart, cartLoading, totalAmount } = useCartContext();
+  const { cart, cartLoading, totalAmount, shippingFee } = useCartContext();
 
   useEffect(() => {
     // 👇️ scroll to top on page load
@@ -229,15 +229,11 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+              <SummaryItemPrice><FormatPrice price={shippingFee} /></SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice><FormatPrice price={totalAmount + shippingFee} /></SummaryItemPrice>
             </SummaryItem>
             <Button>CHECKOUT NOW</Button>
           </Summary>

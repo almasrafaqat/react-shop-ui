@@ -10,6 +10,7 @@ export const CartContextProvider = ({ children }) => {
     cartError: false,
     totalItem: 0,
     totalAmount: 0,
+    shippingFee: 5,
   };
   const [state, dispatch] = useReducer(CartReducer, initialState);
 
