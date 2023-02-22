@@ -104,7 +104,7 @@ const Slider = () => {
         {isLoading ? (
           <PlaceholderLoading shape="rect" width={"99vw"} height={"100vh"} />
         ) : (
-          ShuffleProducts.slice(0, 3)?.map((item) => {
+          products.slice(0, 3)?.map((item) => {
             return (
               <Slide key={item.id} bg="lightgray">
                 <ImageContainer>

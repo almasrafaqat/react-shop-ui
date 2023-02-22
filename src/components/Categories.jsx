@@ -20,11 +20,8 @@ const Title = styled.h3`
 `;
 
 const Categories = () => {
-  const { productCategory } = useProductContext();
+ 
   const { categories, productByCatLoading } = useCategoryContext();
-  let filterCategories = categories.filter((category) =>
-    productCategory.includes(category)
-  );
 
   return (
     <>
@@ -34,8 +31,8 @@ const Categories = () => {
         {productByCatLoading ? (
           <PlaceholderLoading shape="rect" width={"99vw"} height={"10vh"} />
         ) : (
-          filterCategories &&
-          filterCategories.map((item, index) => (
+          categories &&
+          categories.map((item, index) => (
             <CategoryItem item={item} key={index} />
           ))
         )}
