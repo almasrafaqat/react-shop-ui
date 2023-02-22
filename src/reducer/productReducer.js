@@ -46,7 +46,7 @@ export const ProductReducer = (state, action) => {
       return { ...state, searchProductLoading: true };
 
     case "SET_SEARCH_PRODUCT":
-      console.log("searchProduct: ", action.payload);
+      
       return {
         ...state,
         searchProductLoading: false,

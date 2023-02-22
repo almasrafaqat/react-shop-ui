@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import CartReducer from "../reducer/cartReducer";
 
 export const CartContext = createContext();
@@ -8,6 +8,8 @@ export const CartContextProvider = ({ children }) => {
     cart: [],
     cartLoading: false,
     cartError: false,
+    totalItem: 0,
+    totalAmount: 0,
   };
   const [state, dispatch] = useReducer(CartReducer, initialState);
 
@@ -20,6 +22,12 @@ export const CartContextProvider = ({ children }) => {
       dispatch({ type: "CART_ERROR" });
     }
   };
+
+  //Total Cart Item
+  useEffect(() => {
+    dispatch({ type: "CART_ITEM_TOTAL" });
+    dispatch({type: "CART_TOTAL_PRICE"})
+  }, [state.cart]);
   return (
     <CartContext.Provider value={{ ...state, addToCart }}>
       {children}

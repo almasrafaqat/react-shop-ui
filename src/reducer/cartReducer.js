@@ -4,8 +4,8 @@ const CartReducer = (state, action) => {
       return { ...state, cartLoading: true };
     case "ADD_TO_CART":
       let { id, amount, product } = action.payload;
-
       let cartProduct;
+
       cartProduct = {
         id: id,
         amount: amount,
@@ -18,6 +18,7 @@ const CartReducer = (state, action) => {
         rating: product.rating,
         category: product.category,
       };
+
       return {
         ...state,
         cartLoading: false,
@@ -25,6 +26,25 @@ const CartReducer = (state, action) => {
       };
     case "CART_ERROR":
       return { ...state, cartLoading: false, cartError: true };
+
+    // Cart Item total
+    case "CART_ITEM_TOTAL":
+      const CartItem = state.cart.reduce((initialValue, curItem) => {
+        let { amount } = curItem;
+        initialValue = initialValue + amount;
+        return initialValue;
+      }, 0);
+
+      return { ...state, totalItem: CartItem };
+
+    // CART TOTAL PRICE
+    case "CART_TOTAL_PRICE":
+      const CartTotalPrice = state.cart.reduce((initialValue, curElem) => {
+        let { price, amount } = curElem;
+        initialValue = initialValue + amount * price;
+        return initialValue;
+      }, 0);
+      return { ...state, totalAmount: CartTotalPrice };
     default:
       return state;
   }

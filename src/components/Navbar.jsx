@@ -2,6 +2,7 @@ import { Badge } from "@material-ui/core";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import {  useCartContext } from "../context/cartcontext";
 import { useProductContext } from "../context/productcontext";
 import { Link } from "../GlobalStyle";
 import { mobile } from "../responsive";
@@ -74,7 +75,7 @@ const API = "https://dummyjson.com/products/search?q=";
 const Navbar = () => {
   const { almas, getSearchProduct, getUserSearchValue, filters } =
     useProductContext();
-  // console.log('searchProduct: ', searchProduct);
+const {totalItem} = useCartContext();
 
   const { text } = filters;
 
@@ -109,7 +110,7 @@ const Navbar = () => {
           </MenuItem>
           <Link to="/cart">
             <MenuItem>
-              <Badge overlap="rectangular" badgeContent={4} color="primary">
+              <Badge overlap="rectangular" badgeContent={totalItem} color="primary">
                 <ShoppingCartOutlined />
               </Badge>
             </MenuItem>

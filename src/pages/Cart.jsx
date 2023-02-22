@@ -1,5 +1,5 @@
 import { Add, Remove } from "@material-ui/icons";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import CartAmountToggle from "../components/CartAmountToggle";
@@ -72,7 +72,6 @@ const Image = styled.img`
   width: 150px;
   height: 150px;
   border-radius: 12px;
-
 `;
 const Details = styled.div`
   padding: 20px;
@@ -154,8 +153,7 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const { cart, cartLoading } = useCartContext();
-  
+  const { cart, cartLoading, totalAmount } = useCartContext();
 
   useEffect(() => {
     // 👇️ scroll to top on page load
@@ -182,11 +180,13 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            {cart.map((curElem) => (
-              <>
+            {cart.map((curElem, index) => (
+              <Fragment key={index}>
                 <Product>
                   <ProductDetails>
-                    <Link to={`/singleproduct/${curElem.id}`}><Image src={curElem.image} /></Link>
+                    <Link to={`/singleproduct/${curElem.id}`}>
+                      <Image src={curElem.image} />
+                    </Link>
                     <Details>
                       <ProductName>
                         <b>Product: </b> {curElem.name}
@@ -218,14 +218,14 @@ const Cart = () => {
                   </PriceDetails>
                 </Product>
                 <Hr />
-              </>
+              </Fragment>
             ))}
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY </SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice> <FormatPrice price={totalAmount} /></SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>

@@ -63,8 +63,6 @@ const CategoryPage = () => {
   const { getProductByCategory, categoryFilterProducts, productByCatLoading } =
     useCategoryContext();
 
-  console.log("categoryFilterProducts: ", categoryFilterProducts);
-
   if (productByCatLoading) {
     return <Spinner />;
   }
