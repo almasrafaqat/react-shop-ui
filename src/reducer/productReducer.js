@@ -39,6 +39,22 @@ export const ProductReducer = (state, action) => {
         isError: true,
         singleProductLoading: false,
       };
+    // Search Query Product
+    case "SEARCH_PRODUCT_LOADING":
+      return { ...state, searchProductLoading: true };
+
+    case "SET_SEARCH_PRODUCT":
+      return {
+        ...state,
+        searchProductLoading: false,
+        searchProduct: action.payload,
+      };
+    case "SEARCH_PRODUCT_ERROR":
+      return {
+        ...state,
+        searchProductLoading: false,
+        searchProductError: true,
+      };
     default:
       return state;
   }

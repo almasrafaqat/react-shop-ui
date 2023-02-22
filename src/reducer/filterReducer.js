@@ -3,11 +3,15 @@ const FilterReducer = (state, action) => {
     case "FILTER_LOADING":
       return { ...state, filterProductLoading: true };
     case "LOAD_FILTER_PRODUCTS":
+      let priceArr = action.payload.map((curElem) => curElem.price);
+      let maxPrice = Math.max(...priceArr);
+
       return {
         ...state,
         filterProductLoading: false,
         all_products: [...action.payload],
         filter_products: [...action.payload],
+        filters: { ...state.filters, maxPrice: maxPrice, price: maxPrice },
       };
     case "FILTER_ERROR":
       return {
@@ -77,7 +81,30 @@ const FilterReducer = (state, action) => {
         );
       }
 
+      if (price === 0) {
+        tempFilterProduct = tempFilterProduct.filter(
+          (curElem) => curElem.price == price
+        );
+      } else {
+        tempFilterProduct = tempFilterProduct.filter(
+          (curElem) => curElem.price <= price
+        );
+      }
+
       return { ...state, filter_products: tempFilterProduct };
+
+    case "CLEAR_FILTERS_VALUES":
+      return {
+        ...state,
+        filters: {
+          category: "all",
+          brand: "all",
+          rating: "all",
+          price: state.filters.maxPrice,
+          minPrice: state.filters.minPrice,
+          maxPrice: state.filters.maxPrice,
+        },
+      };
 
     default:
       return state;

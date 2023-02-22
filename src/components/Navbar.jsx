@@ -1,6 +1,6 @@
 import { Badge } from "@material-ui/core";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useProductContext } from "../context/productcontext";
 import { Link } from "../GlobalStyle";
@@ -66,8 +66,16 @@ const MenuItem = styled.div`
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
+const API = "https://dummyjson.com/products/search?q="
 const Navbar = () => {
-  const { almas } = useProductContext();
+  const { almas, getSearchProduct , searchProduct} = useProductContext();
+  // console.log('searchProduct: ', searchProduct);
+
+const search = "Laptop";
+
+  useEffect(()=>{
+    getSearchProduct(`${API}${search}`);
+  },[])
   return (
     <Container>
       <Wrapper>
@@ -85,13 +93,13 @@ const Navbar = () => {
         </Center>
         <Right>
           <MenuItem>
-            <Link to="/shop">SHOP</Link>
+            <Link to="/shop">Shop</Link>
           </MenuItem>
           <MenuItem>
             <Link to="/register">Register</Link>
           </MenuItem>
           <MenuItem>
-            <Link to="/login">SIGN IN</Link>
+            <Link to="/login">Sign In</Link>
           </MenuItem>
           <Link to="/cart">
             <MenuItem>
