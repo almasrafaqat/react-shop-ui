@@ -1,5 +1,6 @@
 export const ProductReducer = (state, action) => {
   switch (action.type) {
+    // Products API
     case "API_LOADING":
       return { ...state, isLoading: true };
 
@@ -39,11 +40,13 @@ export const ProductReducer = (state, action) => {
         isError: true,
         singleProductLoading: false,
       };
-    // Search Query Product
+
+    // Get Search Query Products
     case "SEARCH_PRODUCT_LOADING":
       return { ...state, searchProductLoading: true };
 
     case "SET_SEARCH_PRODUCT":
+      console.log("searchProduct: ", action.payload);
       return {
         ...state,
         searchProductLoading: false,
@@ -55,6 +58,12 @@ export const ProductReducer = (state, action) => {
         searchProductLoading: false,
         searchProductError: true,
       };
+
+    // Get user Search Value
+    case "GET_USER_SEARCH_VALUE":
+      const { name, value } = action.payload;
+      return { ...state, filters: { ...state.filters, [name]: value } };
+
     default:
       return state;
   }

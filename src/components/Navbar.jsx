@@ -66,23 +66,25 @@ const MenuItem = styled.div`
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
-const API = "https://dummyjson.com/products/search?q="
+const API = "https://dummyjson.com/products/search?q=";
 const Navbar = () => {
-  const { almas, getSearchProduct , searchProduct} = useProductContext();
+  const { almas, getSearchProduct, getUserSearchValue, filters } =
+    useProductContext();
   // console.log('searchProduct: ', searchProduct);
 
-const search = "Laptop";
+  const { text } = filters;
 
-  useEffect(()=>{
-    getSearchProduct(`${API}${search}`);
-  },[])
+  useEffect(() => {
+    getSearchProduct(`${API}${text}`);
+  }, [text]);
+
   return (
     <Container>
       <Wrapper>
         <Left>
           <Language>En</Language>
           <SearchContainer>
-            <Input />
+            <Input name="text" onChange={getUserSearchValue} />
             <Search style={{ color: "gray", fontSize: 16 }} />
           </SearchContainer>
         </Left>

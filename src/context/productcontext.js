@@ -17,7 +17,10 @@ export const ProductContextProvider = ({ children }) => {
     singleProductLoading: false,
     searchProductLoading: false,
     searchProductError: false,
-    searchProduct : [],
+    searchProduct: [],
+    filters: {
+      text: "",
+    },
   };
 
   const [state, dispatch] = useReducer(ProductReducer, initialState);
@@ -44,23 +47,37 @@ export const ProductContextProvider = ({ children }) => {
     }
   };
 
+  // Search Product
   const getSearchProduct = async (url) => {
     dispatch({ type: "SEARCH_PRODUCT_LOADING" });
     try {
       const res = await axios.get(url);
-      const SearchProduct = await res.data;
+      const SearchProduct = await res.data.products;
       dispatch({ type: "SET_SEARCH_PRODUCT", payload: SearchProduct });
     } catch (error) {
       dispatch({ type: "SEARCH_PRODUCT_ERROR" });
     }
   };
 
+ 
+
+  // get Search Query Value
+
+  const getUserSearchValue = (event) => {
+    let name = event.target.name;
+    let value = event.target.value;
+    dispatch({ type: "GET_USER_SEARCH_VALUE", payload: { name, value } });
+  };
+
+
   useEffect(() => {
     getProducts(API);
   }, []);
 
   return (
-    <ProductContext.Provider value={{ ...state, getSingleProduct, getSearchProduct }}>
+    <ProductContext.Provider
+      value={{ ...state, getSingleProduct, getSearchProduct, getUserSearchValue }}
+    >
       {children}
     </ProductContext.Provider>
   );

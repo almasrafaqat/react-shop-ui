@@ -16,19 +16,26 @@ const Title = styled.h3`
 `;
 
 const Products = () => {
-  const { products } = useProductContext();
+  const {
+    products,
+    searchProduct,
+    filters: { text },
+  } = useProductContext();
 
   const shuffle = (products) => [...products].sort(() => Math.random() - 0.5);
   const ShuffleProducts = shuffle(products);
 
+  const SearchProducts = searchProduct.map((item) => (
+    <Product item={item} key={item.id} />
+  ));
+  const Products = ShuffleProducts.map((item) => (
+    <Product item={item} key={item.id} />
+  ));
+
   return (
     <>
       <Title>Shop By Products</Title>
-      <Container>
-        {ShuffleProducts.map((item) => (
-          <Product item={item} key={item.id} />
-        ))}
-      </Container>
+      <Container>{text ? SearchProducts : Products}</Container>
     </>
   );
 };
