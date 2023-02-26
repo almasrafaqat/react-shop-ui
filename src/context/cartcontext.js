@@ -4,8 +4,16 @@ import CartReducer from "../reducer/cartReducer";
 export const CartContext = createContext();
 
 export const CartContextProvider = ({ children }) => {
+  const getCartData = () => {
+    let newCartData = localStorage.getItem("cart");
+    if (newCartData == []) {
+      return [];
+    } else {
+      return JSON.parse(newCartData);
+    }
+  };
   const initialState = {
-    cart: [],
+    cart: getCartData(),
     cartLoading: false,
     cartError: false,
     totalItem: 0,
@@ -26,11 +34,32 @@ export const CartContextProvider = ({ children }) => {
 
   //Total Cart Item
   useEffect(() => {
-    dispatch({ type: "CART_ITEM_TOTAL" });
-    dispatch({type: "CART_TOTAL_PRICE"})
+    dispatch({ type: "CART_ITEM_PRICE_TOTAL" });
   }, [state.cart]);
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(state.cart));
+  }, [state.cart]);
+
+  // Increase Cart Quanitity
+  const setIncrease = (id) => {
+    dispatch({ type: "SET_CART_INCREAMENT", payload: id });
+  };
+
+  // Descrease Cart Quanitity
+  const setDecrease = (id) => {
+    dispatch({ type: "SET_CART_DECREAMENT", payload: id });
+  };
+
+  // Delete Item Cart
+
+  const setRemove = (id) => {
+    dispatch({ type: "SET_CART_DELETE", payload: id });
+  };
   return (
-    <CartContext.Provider value={{ ...state, addToCart }}>
+    <CartContext.Provider
+      value={{ ...state, addToCart, setIncrease, setDecrease, setRemove }}
+    >
       {children}
     </CartContext.Provider>
   );

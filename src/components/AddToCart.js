@@ -27,6 +27,7 @@ const AddToCart = ({ product }) => {
   return (
     <>
       <CartAmountToggle
+        style="single"
         amount={amount}
         setIncrease={setIncrease}
         setDecrease={setDecrease}
