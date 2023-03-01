@@ -110,8 +110,8 @@ const {totalItem} = useCartContext();
           </MenuItem>
           <Link to="/cart">
             <MenuItem>
-              <Badge overlap="rectangular" badgeContent={totalItem} color="primary">
-                <ShoppingCartOutlined />
+              <Badge overlap="rectangular" badgeContent={totalItem > 0 ? totalItem : 0} color="primary">
+              <ShoppingCartOutlined /> 
               </Badge>
             </MenuItem>
           </Link>
